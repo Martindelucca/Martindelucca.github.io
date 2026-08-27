@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 140" role="img" aria-labelledby="title desc">
+  <title id="title">Martín de Lucca — Diseño y desarrollo web</title>
+  <desc id="desc">Wordmark editorial de Martín de Lucca en tinta con un acento rojo de registro.</desc>
+  <text x="0" y="60" fill="#171714" font-family="IBM Plex Sans, Arial, sans-serif" font-size="46" font-weight="500" letter-spacing="-1.2">Martín de Lucca</text>
+  <text x="4" y="91" fill="#67635C" font-family="IBM Plex Mono, Courier New, monospace" font-size="12" font-weight="500" letter-spacing="1.6">DISEÑO Y DESARROLLO WEB</text>
+  <line x1="4" y1="112" x2="122" y2="112" stroke="#B92F27" stroke-width="3"></line>
+  <rect x="132" y="107" width="10" height="10" fill="#B92F27"></rect>
+</svg>
