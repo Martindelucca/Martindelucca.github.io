@@ -588,10 +588,20 @@ em { font-style: normal; }
   /* 5 · Recorrido: 01 y 05 quedan como endpoints compactos */
   .step { padding: 13px 0; }
 
-  /* 6 · Qué incluye: sin conectores el núcleo abre el sistema */
+  /* 6 · Qué incluye: sin conectores el núcleo abre el sistema y los ocho
+     módulos dejan de ser cards. Mismo contenido, una card en vez de nueve. */
   .system__core-col { order: -1; flex-basis: 100%; max-width: 100%; }
   .core { width: 100%; }
   .core__foot { margin-top: 16px; padding-top: 14px; }
+  .system__row { gap: 0; }
+  .system__col { gap: 0; }
+  .mod {
+    background: none; border: 0; border-radius: 0;
+    border-top: 1px solid var(--hair-ink);
+    padding: 15px 0 13px;
+  }
+  .system__col:last-child .mod:last-child { border-bottom: 1px solid var(--hair-ink); }
+  .mod .mono--idx { color: var(--accent-lt); }
 
   /* 7 · Trabajos: el mockup se ve entero, más chico y centrado.
      No se recorta: se achica el ancho y la proporción hace el resto. */
