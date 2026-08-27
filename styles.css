@@ -411,18 +411,44 @@ em { font-style: normal; }
 .core__foot { margin-top: 20px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .1); font-size: 10px; letter-spacing: .14em; color: var(--on-ink-faint); }
 
 /* ── 08 · PREGUNTAS ──────────────────────────────────────── */
-.faq__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(28px, 3.4vw, 48px) clamp(32px, 4vw, 72px); }
-.faq__item { max-width: 34em; }
+.faq__grid { display: grid; grid-template-columns: 1fr; max-width: 780px; }
+.faq__item { border-top: 1px solid var(--hair); }
+.faq__item:last-child { border-bottom: 1px solid var(--hair); }
+
+.faq__sum {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 20px;
+  padding: 20px 0; cursor: pointer; list-style: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.faq__sum::-webkit-details-marker { display: none; }
+.faq__sum:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+
 .faq__q {
   position: relative; padding-left: 20px;
-  font-size: clamp(17px, 1.45vw, 20px); font-weight: 700; letter-spacing: -.03em;
-  line-height: 1.25; color: var(--text); text-wrap: balance;
+  font-size: clamp(16.5px, 1.35vw, 19px); font-weight: 700; letter-spacing: -.03em;
+  line-height: 1.3; color: var(--text); text-wrap: pretty;
+  transition: color .3s ease;
 }
 .faq__q::before {
-  content: ''; position: absolute; left: 0; top: .5em;
+  content: ''; position: absolute; left: 0; top: .48em;
   width: 8px; height: 8px; border-radius: 2px; background: var(--accent);
 }
-.faq__a { margin-top: 12px; padding-left: 20px; font-size: clamp(15px, 1.12vw, 16.5px); line-height: 1.62; color: var(--muted); text-wrap: pretty; }
+.faq__sum:hover .faq__q { color: var(--accent); }
+
+/* Indicador + / − dibujado con dos trazos */
+.faq__ico { position: relative; flex-shrink: 0; width: 13px; height: 13px; margin-top: .38em; }
+.faq__ico::before, .faq__ico::after {
+  content: ''; position: absolute; left: 0; top: 6px; width: 13px; height: 1.5px;
+  background: var(--muted); border-radius: 1px; transition: transform .35s var(--ease);
+}
+.faq__ico::after { transform: rotate(90deg); }
+.faq__item[open] .faq__ico::after { transform: rotate(0deg); }
+.faq__item[open] .faq__ico::before, .faq__item[open] .faq__ico::after { background: var(--accent); }
+
+.faq__a {
+  margin: -4px 0 22px; padding-left: 20px; max-width: 46em;
+  font-size: clamp(15px, 1.12vw, 16.5px); line-height: 1.62; color: var(--muted); text-wrap: pretty;
+}
 
 /* ── 05 · TRABAJOS ───────────────────────────────────────── */
 .rule-head { display: flex; flex-wrap: wrap; gap: 20px; align-items: baseline; justify-content: space-between; margin-bottom: clamp(46px, 6vw, 78px); padding-bottom: 24px; border-bottom: 1px solid rgba(23, 21, 18, .12); }
@@ -551,7 +577,6 @@ em { font-style: normal; }
   .case--flip .case__shot { order: 2; }
   .chats { padding-top: 0; }
   .values { grid-template-columns: 1fr; }
-  .faq__grid { grid-template-columns: 1fr; }
   .journey { height: auto; }
   .journey__sticky { position: static; min-height: 0; padding: var(--sec-y) var(--pad-x); }
   .step { opacity: 1 !important; transform: none !important; }
@@ -594,10 +619,9 @@ em { font-style: normal; }
   .core { width: 100%; }
   .core__foot { margin-top: 16px; padding-top: 14px; }
 
-  /* 7 · Trabajos: la captura pasa de ~650px a un viewport de 400px */
-  .shot { max-height: 400px; overflow: hidden; border-radius: 14px; }
-  .shot img { display: block; }
-  .shot__shadow { display: none; }
+  /* 7 · Trabajos: el mockup se ve entero, más chico y centrado.
+     No se recorta: se achica el ancho y la proporción hace el resto. */
+  .shot { width: min(200px, 62%); }
   .facts > div:nth-of-type(2) { border-bottom: 1px solid var(--hair); }
 }
 
@@ -607,7 +631,6 @@ em { font-style: normal; }
   .consequences li { padding: 22px 0; }
   .ladder { grid-template-columns: 1fr 1fr; }
   .offer__list { grid-template-columns: 1fr; }
-  .faq__item { max-width: none; }
   .btn { font-size: 15px; padding: 13px 13px 13px 22px; }
   .btn--lg { padding: 14px 14px 14px 24px; font-size: 16px; }
   .facts dt { width: 100%; }
@@ -616,7 +639,7 @@ em { font-style: normal; }
 }
 
 @media (max-width: 600px) {
-  .shot { max-height: 380px; }
+  .shot { width: min(186px, 58%); }
   .rowlist__compact { font-size: 14px; }
 }
 
