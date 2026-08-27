@@ -145,6 +145,12 @@ em { font-style: normal; }
 .lead { max-width: 32em; font-size: clamp(16.5px, 1.28vw, 19px); line-height: 1.62; color: var(--muted); text-wrap: pretty; }
 .lead + .lead { margin-top: 20px; }
 .hero__copy .lead { margin-top: clamp(26px, 3vw, 36px); }
+.hero__note {
+  margin-top: clamp(18px, 2vw, 24px); padding-left: 16px; max-width: 30em;
+  border-left: 2px solid var(--accent);
+  font-size: clamp(15px, 1.1vw, 16.5px); line-height: 1.55; color: var(--text);
+  text-wrap: pretty;
+}
 .body { max-width: 28em; font-size: clamp(16px, 1.2vw, 18px); line-height: 1.65; color: var(--on-ink-muted); text-wrap: pretty; margin-top: clamp(26px, 3vw, 34px); }
 .body + .body { margin-top: 22px; }
 .pullquote {
@@ -279,6 +285,7 @@ em { font-style: normal; }
 .rowlist__t { font-size: 14px; font-weight: 500; letter-spacing: -.015em; flex: 1; }
 .rowlist__bar { width: 26px; height: 3px; border-radius: 2px; background: rgba(23, 21, 18, .16); }
 .rowlist__bar--accent { background: var(--accent); }
+.rowlist__compact { font-size: 14.5px; font-weight: 600; letter-spacing: -.02em; color: var(--text); padding: 4px 0 2px; }
 
 /* ── 01 · PROBLEMA ───────────────────────────────────────── */
 .problema__glow { position: absolute; inset: 0; background: radial-gradient(90% 70% at 20% 0%, rgba(185, 47, 39, .13), transparent 62%); pointer-events: none; }
@@ -405,6 +412,20 @@ em { font-style: normal; }
 .assurances { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: center; margin-top: clamp(36px, 4.5vw, 56px); padding-top: 26px; border-top: 1px solid rgba(255, 255, 255, .1); font-size: 15px; color: var(--on-ink-muted); }
 .assurances li { display: inline-flex; align-items: center; gap: 9px; }
 
+/* ── 08 · PREGUNTAS ──────────────────────────────────────── */
+.faq__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(28px, 3.4vw, 48px) clamp(32px, 4vw, 72px); }
+.faq__item { max-width: 34em; }
+.faq__q {
+  position: relative; padding-left: 20px;
+  font-size: clamp(17px, 1.45vw, 20px); font-weight: 700; letter-spacing: -.03em;
+  line-height: 1.25; color: var(--text); text-wrap: balance;
+}
+.faq__q::before {
+  content: ''; position: absolute; left: 0; top: .5em;
+  width: 8px; height: 8px; border-radius: 2px; background: var(--accent);
+}
+.faq__a { margin-top: 12px; padding-left: 20px; font-size: clamp(15px, 1.12vw, 16.5px); line-height: 1.62; color: var(--muted); text-wrap: pretty; }
+
 /* ── 05 · TRABAJOS ───────────────────────────────────────── */
 .rule-head { display: flex; flex-wrap: wrap; gap: 20px; align-items: baseline; justify-content: space-between; margin-bottom: clamp(46px, 6vw, 78px); padding-bottom: 24px; border-bottom: 1px solid rgba(23, 21, 18, .12); }
 .rule-head .eyebrow { margin-bottom: 0; }
@@ -428,12 +449,13 @@ em { font-style: normal; }
 
 /* ── 06 · SOBRE MÍ ───────────────────────────────────────── */
 .about { display: grid; grid-template-columns: minmax(260px, 380px) 1.6fr; gap: clamp(32px, 5vw, 76px); align-items: start; }
-.portrait { position: relative; aspect-ratio: 4 / 5; border-radius: 16px; border: 1px dashed rgba(23, 21, 18, .24); background: linear-gradient(150deg, #EDE9E0, var(--paper-2)); display: grid; place-items: center; overflow: hidden; box-shadow: 0 24px 50px -30px rgba(23, 21, 18, .4); }
-.portrait__ph { text-align: center; padding: 20px; }
-.portrait__ph .mono { font-size: 10px; letter-spacing: .18em; line-height: 1.6; color: var(--faint); }
-.portrait__ph p:last-child { font-size: 13px; line-height: 1.5; color: var(--faint); margin-top: 8px; }
-.portrait__tag { position: absolute; left: 14px; bottom: 14px; font-size: 9.5px; letter-spacing: .14em; color: var(--faint-2); }
+/* El retrato real (4:5) va acá cuando exista: .portrait envolviendo un <img>. */
+/* Variantes desktop / mobile. Por defecto manda desktop; el switch está en el
+   bloque @media (max-width: 940px) de más abajo. */
+.only-mobile { display: none !important; }
+
 .specs { margin-top: 22px; }
+.specs--lead { margin-top: 0; }
 .specs > div { display: flex; justify-content: space-between; gap: 14px; padding: 11px 0; border-top: 1px solid var(--hair); font-size: 11px; line-height: 1.4; letter-spacing: .08em; }
 .specs > div.is-last { border-bottom: 1px solid var(--hair); }
 .specs dt { color: var(--faint); }
@@ -531,6 +553,7 @@ em { font-style: normal; }
   .case--flip .case__shot { order: 2; }
   .chats { padding-top: 0; }
   .values { grid-template-columns: 1fr; }
+  .faq__grid { grid-template-columns: 1fr; }
   .journey { height: auto; }
   .journey__sticky { position: static; min-height: 0; padding: var(--sec-y) var(--pad-x); }
   .step { opacity: 1 !important; transform: none !important; }
@@ -539,7 +562,45 @@ em { font-style: normal; }
   .demo__body > .is-off { opacity: 1; transform: none; }
   .system__links { display: none; }
   .system__col, .system__core-col { max-width: 100%; flex: 1 1 100%; min-width: 0; }
-  .about__side { max-width: 380px; }
+  .about__side { max-width: 420px; }
+
+  /* ── Iteración mobile: densidad y carga cognitiva ─────────────────── */
+
+  /* Switch de variantes */
+  .only-desktop { display: none !important; }
+  .only-mobile { display: revert !important; }
+  .d-br { display: none; }
+
+  /* 1 · Hero: el objeto visual pasa de ~633px a ~350px.
+     Se conserva Instagram → página → WhatsApp completo. */
+  .stage__slot--a, .stage__slot--b, .stage__slot--c { width: 100%; align-self: stretch; }
+  .connector { height: 26px; }
+  .connector svg { height: 26px; }
+  .card--paper, .card--ink { padding: 13px 14px; }
+  .card--hero-main { padding: 14px 15px 12px; }
+  .card--hero-main .card__head { margin-bottom: 10px; }
+  .stage .mono--foot { margin-top: 8px; }
+
+  /* 11 · Coordenadas + reloj: detalle editorial sin función comercial */
+  .coords { display: none; }
+
+  /* 4 · Consecuencias: quedan dos, y el índice 01/04 deja de orientar */
+  .consequences .mono--accent { display: none; }
+  .consequences li { padding-top: 20px; padding-bottom: 20px; }
+
+  /* 5 · Recorrido: 01 y 05 quedan como endpoints compactos */
+  .step { padding: 13px 0; }
+
+  /* 6 · Qué incluye: sin conectores el núcleo abre el sistema */
+  .system__core-col { order: -1; flex-basis: 100%; max-width: 100%; }
+  .core { width: 100%; }
+  .core__foot { margin-top: 16px; padding-top: 14px; }
+
+  /* 7 · Trabajos: la captura pasa de ~650px a un viewport de 400px */
+  .shot { max-height: 400px; overflow: hidden; border-radius: 14px; }
+  .shot img { display: block; }
+  .shot__shadow { display: none; }
+  .facts > div:nth-of-type(2) { border-bottom: 1px solid var(--hair); }
 }
 
 @media (max-width: 640px) {
@@ -548,11 +609,17 @@ em { font-style: normal; }
   .consequences li { padding: 22px 0; }
   .ladder { grid-template-columns: 1fr 1fr; }
   .offer__list { grid-template-columns: 1fr; }
+  .faq__item { max-width: none; }
   .btn { font-size: 15px; padding: 13px 13px 13px 22px; }
   .btn--lg { padding: 14px 14px 14px 24px; font-size: 16px; }
   .facts dt { width: 100%; }
   .stage__slot--a, .stage__slot--b, .stage__slot--c { width: 100%; align-self: stretch; }
   .coords { position: static; margin-top: 34px; }
+}
+
+@media (max-width: 600px) {
+  .shot { max-height: 380px; }
+  .rowlist__compact { font-size: 14px; }
 }
 
 @media (max-width: 460px) {

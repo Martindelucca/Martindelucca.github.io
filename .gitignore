@@ -1,0 +1,12 @@
+# Material comercial interno — no va al repo público
+docs/
+
+# Herramientas del entorno de trabajo
+.agents/
+.claude/
+skills-lock.json
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini

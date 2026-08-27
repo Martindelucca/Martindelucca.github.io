@@ -31,7 +31,9 @@
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
-        var delay = parseInt(e.target.getAttribute('data-rd') || '0', 10);
+        // El stagger es coreografía de desktop. En una sola columna los elementos
+        // entran casi a la vez, así que el delay se lee como demora: se anula.
+        var delay = DESKTOP() ? parseInt(e.target.getAttribute('data-rd') || '0', 10) : 0;
         setTimeout(function () {
           e.target.style.opacity = '1';
           e.target.style.transform = 'none';
