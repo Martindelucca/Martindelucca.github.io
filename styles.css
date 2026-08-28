@@ -424,10 +424,15 @@ em { font-style: normal; }
 .area {
   padding: clamp(20px, 2.2vw, 28px); border-radius: 16px;
   background: rgba(255, 255, 255, .055); border: 1px solid var(--hair-ink);
+  /* Las cajas estiran al alto de su fila, así que la alineación vertical hay
+     que declararla o el texto cae donde el flujo lo deje. Va centrado porque
+     son nodos de un diagrama y los conectores llegan a su centro: alineado
+     arriba, la curva apunta al hueco de las cajas de descripción corta. */
+  display: flex; flex-direction: column; justify-content: center;
   transition: transform .4s var(--ease), background .4s ease, border-color .4s ease;
 }
 .area:hover { transform: translateY(-3px); background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .2); }
-.area h3 { margin-top: 10px; font-size: clamp(17px, 1.5vw, 21px); font-weight: 700; letter-spacing: -.03em; color: var(--on-ink); }
+.area h3 { font-size: clamp(17px, 1.5vw, 21px); font-weight: 700; letter-spacing: -.03em; color: var(--on-ink); }
 .area__d { margin-top: 8px; font-size: 14.5px; line-height: 1.5; color: var(--on-ink-dim); text-wrap: pretty; }
 .area--contenido { grid-area: contenido; }
 .area--diseno { grid-area: diseno; }
@@ -443,8 +448,6 @@ em { font-style: normal; }
       "desarrollo core publicacion";
     align-items: stretch;
   }
-  .area--contenido { display: flex; flex-direction: column; justify-content: flex-end; }
-  .area--publicacion { display: flex; flex-direction: column; justify-content: flex-start; }
 }
 
 
@@ -514,6 +517,9 @@ em { font-style: normal; }
 .core {
   width: 100%; padding: clamp(26px, 3vw, 38px) clamp(22px, 2.4vw, 30px);
   border-radius: 20px; text-align: center; position: relative; z-index: 2;
+  /* Abarca las dos filas de áreas, así que sobra alto: sin esto el contenido
+     quedaba pegado arriba con 39px de aire contra 108 abajo. */
+  display: flex; flex-direction: column; justify-content: center;
   background: linear-gradient(180deg, var(--ink-raised), var(--ink-sunken));
   border: 1px solid rgba(255, 255, 255, .14);
   box-shadow: 0 40px 90px -40px rgba(0, 0, 0, .95), inset 0 1px 0 rgba(255, 255, 255, .09);
