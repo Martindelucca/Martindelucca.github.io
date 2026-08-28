@@ -26,11 +26,10 @@
   <link rel="icon" href="assets/favicon-32.png" sizes="32x32" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Literata:ital,opsz,wght@1,7..72,300..400&display=swap"
-    rel="stylesheet" />
+  <!-- Las dos fuentes arman el H1, que es lo más grande arriba del fold: van
+       precargadas para que salgan junto al CSS y no una cascada después. -->
+  <link rel="preload" href="assets/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/literata-italic-latin-var.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="styles.css" />
 
   <script type="application/ld+json">
