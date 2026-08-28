@@ -9,20 +9,32 @@
   var HOVER = window.matchMedia('(hover: hover)').matches;
   var DESKTOP = function () { return window.innerWidth > 940; };
 
-  /* ── Scroll: un solo listener para toda la página ───────────
-     Había tres (header, escena sticky, FAB) y cada uno leía layout por su
-     cuenta en cada evento. Ahora se registran acá y corren juntos, una vez
-     por frame: el navegador hace una sola pasada de lectura en vez de tres. */
+  /* ── Scroll: un solo listener, en dos fases ─────────────────
+     Había tres listeners (header, escena sticky, FAB) y cada uno leía layout y
+     escribía clases por su cuenta. Aun juntándolos en un frame quedaba la
+     alternancia leer-escribir-leer-escribir, y cada escritura invalida el
+     layout: la lectura siguiente obliga al navegador a recalcularlo de forma
+     síncrona. Lighthouse lo medía en 94ms de forced reflow.
+
+     Por eso cada trabajo se registra partido en dos. Primero corren TODAS las
+     lecturas, que no ensucian nada, y recién después TODAS las escrituras. El
+     navegador recalcula una vez por frame en vez de una vez por trabajo.
+
+     `leer` devuelve un estado y no toca el DOM. `escribir` recibe ese estado y
+     no lee el DOM. Si agregás un trabajo nuevo, respetá el corte. */
   var scrollJobs = [];
   var scrollTick = null;
-  function onScroll(fn) { scrollJobs.push(fn); fn(); }
+  function onScroll(leer, escribir) { scrollJobs.push({ leer: leer, escribir: escribir }); }
+  function correrJobs() {
+    var n = scrollJobs.length, estados = new Array(n), i;
+    for (i = 0; i < n; i++) estados[i] = scrollJobs[i].leer();
+    for (i = 0; i < n; i++) scrollJobs[i].escribir(estados[i]);
+  }
   window.addEventListener('scroll', function () {
     if (scrollTick) return;
-    scrollTick = requestAnimationFrame(function () {
-      scrollTick = null;
-      for (var i = 0; i < scrollJobs.length; i++) scrollJobs[i]();
-    });
+    scrollTick = requestAnimationFrame(function () { scrollTick = null; correrJobs(); });
   }, { passive: true });
+  window.addEventListener('resize', correrJobs);
 
   /* ── Reveals al entrar en viewport ───────────────────────── */
   function initReveal() {
@@ -91,7 +103,10 @@
   function initHeader() {
     var pill = document.querySelector('[data-header-pill]');
     if (!pill) return;
-    onScroll(function () { pill.classList.toggle('is-scrolled', window.scrollY > 50); });
+    onScroll(
+      function () { return window.scrollY > 50; },
+      function (pasado) { pill.classList.toggle('is-scrolled', pasado); }
+    );
   }
 
   /* ── Hero: parallax de las cards con el cursor ───────────── */
@@ -162,15 +177,19 @@
       current = -1;
     };
 
-    var update = function () {
-      if (!DESKTOP() || REDUCED) { if (current !== -1) reset(); return; }
+    // -1 significa "la escena no corre" (mobile o reduced-motion).
+    var leer = function () {
+      if (!DESKTOP() || REDUCED) return -1;
       var span = sec.offsetHeight - window.innerHeight;
       var p = Math.min(1, Math.max(0, -sec.getBoundingClientRect().top / Math.max(1, span)));
-      apply(Math.min(total - 1, Math.floor(p * (total + 0.0001))));
+      return Math.min(total - 1, Math.floor(p * (total + 0.0001)));
+    };
+    var escribir = function (idx) {
+      if (idx < 0) { if (current !== -1) reset(); return; }
+      apply(idx);
     };
 
-    onScroll(update);
-    window.addEventListener('resize', update);
+    onScroll(leer, escribir);
   }
 
   /* ── Qué incluye: conectores dibujados al núcleo ─────────── */
@@ -184,25 +203,28 @@
     var shown = false;
 
     var draw = function () {
+      // Lecturas primero, todas juntas. Antes los rects de los módulos se leían
+      // dos veces y la segunda caía después de escribir el viewBox, que
+      // invalida el layout: eso forzaba un recálculo síncrono.
       var wr = wrap.getBoundingClientRect();
       var cr = core.getBoundingClientRect();
+      var rects = mods.map(function (m) { return m.getBoundingClientRect(); });
+      var ancho = window.innerWidth;
       var coreMid = cr.top + cr.height / 2;
 
       // Sólo dibujamos si las 3 columnas comparten fila con el núcleo.
-      var sameRow = mods.every(function (m) {
-        var mr = m.getBoundingClientRect();
+      var sameRow = rects.every(function (mr) {
         return mr.bottom > cr.top && mr.top < cr.bottom &&
                Math.abs(mr.top + mr.height / 2 - coreMid) < cr.height;
       });
-      if (!sameRow || window.innerWidth < 940) { svg.style.opacity = '0'; svg.innerHTML = ''; return; }
 
-      svg.setAttribute('viewBox', '0 0 ' + wr.width + ' ' + wr.height);
-      svg.setAttribute('preserveAspectRatio', 'none');
+      // A partir de acá, sólo escrituras.
+      if (!sameRow || ancho < 940) { svg.style.opacity = '0'; svg.innerHTML = ''; return; }
 
       var cxL = cr.left - wr.left, cxR = cr.right - wr.left, cy = coreMid - wr.top;
       var d = '';
-      mods.forEach(function (m) {
-        var mr = m.getBoundingClientRect();
+      rects.forEach(function (mr, i) {
+        var m = mods[i];
         var my = mr.top - wr.top + mr.height / 2;
         var isLeft = m.getAttribute('data-mod').charAt(0) === 'l';
         var sx = isLeft ? mr.right - wr.left : mr.left - wr.left;
@@ -211,6 +233,8 @@
         d += 'M ' + sx + ' ' + my + ' C ' + mid + ' ' + my + ', ' + mid + ' ' + cy + ', ' + ex + ' ' + cy + ' ';
       });
 
+      svg.setAttribute('viewBox', '0 0 ' + wr.width + ' ' + wr.height);
+      svg.setAttribute('preserveAspectRatio', 'none');
       svg.innerHTML = '<path d="' + d + '" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1" stroke-linecap="round"></path>';
 
       if (shown) {
@@ -290,13 +314,13 @@
     var cta = document.querySelector('.cta');
     // Se apaga al llegar al cierre: ahí abajo el botón grande dice lo mismo,
     // y el flotante estaba tapando una línea de texto en cada scroll.
-    var on = function () {
-      var enElCierre = cta && cta.getBoundingClientRect().top < window.innerHeight * 0.9;
-      fab.classList.toggle('is-visible',
-        window.innerWidth < 860 && window.scrollY > window.innerHeight * 0.9 && !enElCierre);
-    };
-    onScroll(on);
-    window.addEventListener('resize', on);
+    onScroll(
+      function () {
+        var enElCierre = cta && cta.getBoundingClientRect().top < window.innerHeight * 0.9;
+        return window.innerWidth < 860 && window.scrollY > window.innerHeight * 0.9 && !enElCierre;
+      },
+      function (visible) { fab.classList.toggle('is-visible', visible); }
+    );
   }
 
   /* ── Circulito que sigue al cursor ───────────────────────── */
@@ -345,6 +369,8 @@
     initMicro();
     initCursor();
     initFab();
+    // Estado inicial de los tres trabajos de scroll, en una sola pasada.
+    correrJobs();
   }
 
   if (document.readyState === 'loading') {
