@@ -604,15 +604,9 @@ em { font-style: normal; }
 
   /* ── Iteración mobile: densidad y carga cognitiva ─────────────────── */
 
-  /* Hero · la meta-row pasa a una línea corrida en caja baja: tres líneas
-     de mono en mayúsculas competían con el CTA que tienen justo encima. */
-  .meta-row {
-    display: block; text-transform: none; letter-spacing: 0;
-    font-family: var(--sans); font-size: 13.5px; line-height: 1.5; color: var(--faint);
-    margin-top: 22px; padding-top: 0; border-top: 0;
-  }
-  .meta-row span + span::before { content: '·'; margin: 0 .5em; color: var(--faint-2); }
-  .meta-row--single { display: block; }
+  /* Hero · fuera la meta-row en mobile: debajo del CTA hacía ruido y el
+     mismo contenido vuelve en el cierre. En desktop se conserva. */
+  .hero .meta-row { display: none; }
 
   /* 01 · las tres situaciones no se apilan como cards: quedan editoriales */
   .start { max-width: none; }
