@@ -108,13 +108,14 @@
     });
   }
 
-  /* ── Recorrido: escena sticky de 5 pasos ─────────────────── */
+  /* ── Recorrido: escena sticky. La cantidad de pasos sale del DOM. ── */
   function initJourney() {
     var sec = document.querySelector('[data-journey]');
     if (!sec) return;
     var steps = Array.prototype.slice.call(sec.querySelectorAll('[data-step]'));
     var blocks = Array.prototype.slice.call(sec.querySelectorAll('[data-build] > [data-b]'));
     var label = sec.querySelector('[data-progress-label]');
+    var total = steps.length;
     var current = -1;
 
     var apply = function (idx) {
@@ -128,7 +129,7 @@
       blocks.forEach(function (b) {
         b.classList.toggle('is-off', +b.getAttribute('data-b') > idx);
       });
-      if (label) label.textContent = '0' + (idx + 1) + ' / 05';
+      if (label) label.textContent = '0' + (idx + 1) + ' / 0' + total;
     };
 
     var reset = function () {
@@ -139,9 +140,9 @@
 
     var update = function () {
       if (!DESKTOP() || REDUCED) { if (current !== -1) reset(); return; }
-      var total = sec.offsetHeight - window.innerHeight;
-      var p = Math.min(1, Math.max(0, -sec.getBoundingClientRect().top / Math.max(1, total)));
-      apply(Math.min(4, Math.floor(p * 5.0001)));
+      var span = sec.offsetHeight - window.innerHeight;
+      var p = Math.min(1, Math.max(0, -sec.getBoundingClientRect().top / Math.max(1, span)));
+      apply(Math.min(total - 1, Math.floor(p * (total + 0.0001))));
     };
 
     update();
