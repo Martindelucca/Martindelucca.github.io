@@ -573,15 +573,15 @@ em { font-style: normal; }
    `difference` lo hace legible sobre cream y sobre ink sin cambiar color. */
 .cursor-dot {
   position: fixed; top: 0; left: 0; z-index: 300;
-  width: 26px; height: 26px; margin: -13px 0 0 -13px;
-  border: 1.5px solid #fff; border-radius: 999px;
+  width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  background: #fff; border-radius: 999px;
   mix-blend-mode: difference; pointer-events: none;
   opacity: 0; will-change: transform;
-  transition: opacity .3s ease, width .3s var(--ease), height .3s var(--ease),
-              margin .3s var(--ease), border-width .3s ease;
+  transition: opacity .25s ease, width .25s var(--ease), height .25s var(--ease),
+              margin .25s var(--ease);
 }
 .cursor-dot.is-on { opacity: 1; }
-.cursor-dot.is-over { width: 46px; height: 46px; margin: -23px 0 0 -23px; border-width: 1px; }
+.cursor-dot.is-over { width: 32px; height: 32px; margin: -16px 0 0 -16px; }
 
 @media (hover: none), (pointer: coarse) { .cursor-dot { display: none; } }
 @media (prefers-reduced-motion: reduce) { .cursor-dot { display: none; } }

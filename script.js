@@ -284,8 +284,8 @@
     var tx = 0, ty = 0, cx = 0, cy = 0, raf = null, started = false;
 
     var loop = function () {
-      cx += (tx - cx) * 0.18;
-      cy += (ty - cy) * 0.18;
+      cx += (tx - cx) * 0.3;
+      cy += (ty - cy) * 0.3;
       dot.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)';
       raf = (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) ? requestAnimationFrame(loop) : null;
     };
