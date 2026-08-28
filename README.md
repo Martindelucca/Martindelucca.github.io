@@ -20,7 +20,7 @@ assets/         capturas de los casos + wordmark SVG
 | `--accent` | `#B92F27` | acento (del wordmark) |
 | `--accent-lt` | `#E66B61` | acento sobre fondo oscuro |
 | `--text` / `--muted` / `--muted-2` / `--faint` | `#171613` / `#56524A` / `#635E56` / `#6E685E` | rampa de texto sobre claro |
-| `--on-ink` / `--on-ink-muted` / `--on-ink-dim` / `--on-ink-faint` | `#F2EFE8` / `#A39D91` / `#9A958B` / `#948F85` | rampa de texto sobre oscuro |
+| `--on-ink` / `--on-ink-2` / `--on-ink-muted` / `--on-ink-dim` / `--on-ink-faint` | `#F2EFE8` / `#C8C0B0` / `#B1A896` / `#A29987` / `#978F7E` | rampa de texto sobre oscuro |
 | `--deco` | `#B5AFA3` | **nunca texto**: cuadrados, puntos, reglas |
 
 Tipografía: **dos familias, ninguna mono.** **Archivo** hace interfaz, cuerpo, titulares y
@@ -28,7 +28,13 @@ labels; **Literata** italic 300 entra sólo en dos énfasis y en la pullquote.
 
 El display va a `var(--w-display)` = **700**. Tracking `-.04em` como piso, nunca más cerrado.
 
-Lo que antes pedía una mono es ahora `.label` — la misma sans a 620–640, cuerpo chico y algo de
+**Los pesos son los cinco que Archivo carga de verdad**, y nada en el medio: `800` display · `700`
+subtítulos · `600` labels · `500` metadatos · `400` cuerpo. Archivo entra como instancias estáticas,
+no como fuente variable: un `620` no existe y el navegador lo resuelve a `700`, un `550` a `600`.
+Escribir un peso fraccionario acá no afina nada, cambia el peso por otro. `--w-display` guarda el
+tope para no repetirlo.
+
+Lo que antes pedía una mono es ahora `.label` — la misma sans a 600, cuerpo chico y algo de
 tracking. **La versalita se quedó sólo donde funciona como etiqueta** (chrome de card, campos de
 ficha, chips, nav del footer) y se cayó en todo lo que en realidad era una frase: una oración entera
 en mayúsculas era el tic más visible del sistema anterior. Los cuerpos de label subieron de 9.5–10px
@@ -40,9 +46,17 @@ Ritmo de secciones: claro → oscuro → claro → oscuro. Máximo dos fondos en
 
 **Las dos rampas de texto están calculadas, no elegidas a ojo.** La clara se verifica contra la
 superficie clara más oscura del sistema (`--mist #EFEBE2`) y la oscura contra la más clara (la card
-de precio, `#2C2820`), así un solo juego de tokens sirve en todas las superficies. Los cuatro
-escalones de cada rampa pasan 4.5:1 como texto normal; `--faint` y `--on-ink-faint` son el piso.
-Debajo de ahí no hay texto: hay `--deco`. Si agregás un color de texto nuevo, verificalo.
+de precio, `#2C2820`), así un solo juego de tokens sirve en todas las superficies. Todos los
+escalones pasan 4.5:1 como texto normal; `--faint` y `--on-ink-faint` son el piso. Debajo de ahí no
+hay texto: hay `--deco`. Si agregás un color de texto nuevo, verificalo.
+
+**Cumplir AA no alcanza: la rampa también tiene que abrir.** La versión anterior de la rampa oscura
+pasaba AA con margen y aun así las secciones oscuras se veían grises, porque sus tres tonos apagados
+habían quedado apretados en un 4.6% de luminancia: eran el mismo gris repetido tres veces. Ahora
+abren 15.9%. Segunda regla, del mismo problema: `--ink` tiene croma 0.012, así que un texto a croma
+0.016 es apenas más cálido que su propio fondo y el ojo lo lee como gris neutro sobre marrón. Los
+tonos apagados van a 0.024–0.028 para que lean crema. Si tenés que subir el piso de contraste otra
+vez, subilo abriendo hacia arriba, no comprimiendo hacia abajo.
 
 **Numeración.** Los `NN —` de sección se fueron: sólo quedan números donde describen una secuencia
 real (las tres situaciones de 01, los cuatro momentos de 02, el `01 / 02` de los casos). Cada
@@ -66,6 +80,15 @@ genera con IA, no se usa stock y no se deja un placeholder: la página vende pro
 **Reveals.** Cualquier elemento con `data-r="up|left|right|scale"` (opcional `data-rd` en ms) entra animado. Los estilos iniciales los pone el JS, no el CSS: sin JS todo queda visible.
 
 **Foco.** Hay un sistema global en `styles.css`: todo lo operable dibuja un outline de 2px en rojo de marca (rojo claro sobre superficies oscuras) con `outline-offset: 3px`. No se saca ningún outline sin reemplazo. El `.skip-link` del principio del `<body>` aparece sólo con foco de teclado y lleva al `<main id="contenido">`.
+
+**Scroll.** Hay un solo listener de scroll para toda la página (`onScroll()` en `script.js`).
+El header, la escena sticky y el FAB se registran ahí y corren juntos, una vez por frame vía
+`requestAnimationFrame`. Si agregás algo que reacciona al scroll, registralo en el mismo lugar en
+vez de sumar un listener nuevo: tres handlers leyendo layout por separado era lo que había antes.
+
+**`will-change`.** Se pone un frame antes de que el elemento anime y se saca al terminar. No lo
+pongas en el CSS de nada que se revele: ponerlo de entrada promovía los ~63 elementos revelables a
+capa propia desde el load, y los que nunca entran al viewport se quedaban promovidos para siempre.
 
 **Movimiento.** Todo respeta `prefers-reduced-motion`. El parallax del hero y los botones magnéticos sólo corren con `(hover: hover)`, así que en touch no se disparan.
 

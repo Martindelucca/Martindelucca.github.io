@@ -25,14 +25,24 @@
   --hair: rgba(23, 21, 18, .1);
   --hair-2: rgba(23, 21, 18, .09);
 
-  /* Texto sobre oscuro — rampa verificada contra la superficie oscura más
-     clara del sistema (la card de precio, #2C2820), así un solo juego de tokens
-     sirve para --ink y para todas las cards elevadas. */
+  /* Texto sobre oscuro — verificada contra la superficie oscura más clara del
+     sistema (la card de precio, #2C2820), así un solo juego de tokens sirve
+     para --ink y para todas las cards elevadas.
+     Los ratios entre paréntesis son el peor caso, no el mejor.
+
+     Dos cosas que esta rampa arregla y conviene no volver a romper:
+     · RECORRIDO. Cumplir AA subiendo el piso apretó los tres tonos apagados
+       en una banda de 4.6% de luminancia: dejaban de ser una jerarquía y
+       pasaban a ser un gris repetido tres veces. Ahora abren 15.9%.
+     · CALIDEZ. --ink tiene croma 0.012. Un texto a croma 0.016 es apenas más
+       cálido que su fondo y el ojo lo lee como gris neutro sobre marrón. Estos
+       van a 0.024–0.028: leen crema, que es lo que la página quiere. */
   --on-ink: #F2EFE8;       /* 12.8:1 · primario */
-  --on-ink-muted: #A39D91; /*  5.4:1 · cuerpo secundario */
-  --on-ink-dim: #9A958B;   /*  4.9:1 · terciario */
-  --on-ink-faint: #948F85; /*  4.6:1 · labels y metadatos (piso AA) */
-  --hair-ink: rgba(255, 255, 255, .09);
+  --on-ink-2: #C8C0B0;     /*  8.1:1 · destacado sobre oscuro */
+  --on-ink-muted: #B1A896; /*  6.2:1 · cuerpo */
+  --on-ink-dim: #A29987;   /*  5.2:1 · terciario */
+  --on-ink-faint: #978F7E; /*  4.6:1 · labels y metadatos (piso AA) */
+  --hair-ink: rgba(255, 255, 255, .13);
 
   /* Acento */
   --accent: #B92F27;
@@ -44,10 +54,16 @@
   /* Tipografía — dos familias. Archivo hace interfaz, cuerpo, titulares
      y también los labels que antes pedían una mono dedicada; Literata entra sólo
      en los dos énfasis que lo justifican y en la pullquote.
-     --w-display está en una variable para mantener una sola decisión de peso. */
+     --w-display está en una variable para mantener una sola decisión de peso.
+
+     PESOS: Archivo se carga en instancias estáticas (400/500/600/700/800), no
+     como variable. Un 620 no existe: el navegador lo resuelve a 700, y un 550
+     a 600. Usar sólo los cinco pesos reales; un peso fraccionario acá no es
+     un ajuste fino, es un peso distinto del que se escribió.
+       800 display · 700 subtítulos · 600 labels · 500 metadatos · 400 cuerpo */
   --sans: 'Archivo', system-ui, -apple-system, sans-serif;
   --serif: 'Literata', Georgia, serif;
-  --w-display: 700;
+  --w-display: 800;
 
   /* Métrica */
   --max: 1280px;
@@ -144,18 +160,18 @@ em { font-style: normal; }
    footer- y se cae en todo lo que en realidad era una frase: una oracion entera
    en mayusculas es justo el tic que habia que sacar. De paso los cuerpos suben
    de 9.5-10px a 10.5-11.5px, que es donde se leen en la calle. */
-.label { font-weight: 620; letter-spacing: .04em; font-variant-numeric: tabular-nums; }
-.label--tag { font-size: 10.5px; font-weight: 640; letter-spacing: .1em; text-transform: uppercase; line-height: 1.3; color: var(--faint); }
+.label { font-weight: 600; letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+.label--tag { font-size: 10.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; line-height: 1.3; color: var(--faint); }
 :is(.section--ink, .footer, .card--ink) .label--tag { color: var(--on-ink-faint); }
 .label--note { margin-top: 12px; font-size: 11.5px; font-weight: 500; letter-spacing: 0; line-height: 1.45; color: var(--faint); }
-.label--case { font-size: 11.5px; font-weight: 640; letter-spacing: .1em; color: var(--accent); margin-bottom: 18px; }
+.label--case { font-size: 11.5px; font-weight: 600; letter-spacing: .1em; color: var(--accent); margin-bottom: 18px; }
 .label--accent { color: var(--accent); }
 .label--accent-lt { color: var(--accent-lt); }
 .label--faint { color: var(--faint); }
 .label--dim { color: var(--on-ink-faint); }
 
 .eyebrow {
-  font-size: 13px; font-weight: 620; letter-spacing: .01em; line-height: 1.2;
+  font-size: 13px; font-weight: 600; letter-spacing: .01em; line-height: 1.2;
   color: var(--on-ink-faint); margin-bottom: clamp(22px, 3vw, 32px);
   font-variant-numeric: tabular-nums;
 }
@@ -194,7 +210,7 @@ em { font-style: normal; }
   margin: clamp(22px, 2.6vw, 30px) 0 clamp(52px, 6vw, 82px);
   max-width: 24em; font-family: var(--serif); font-style: italic; font-weight: 300;
   font-size: clamp(19px, 1.85vw, 26px); line-height: 1.44; letter-spacing: -.018em;
-  color: #C6C0B4; text-wrap: pretty;
+  color: var(--on-ink-2); text-wrap: pretty;
 }
 
 /* ── BOTONES ─────────────────────────────────────────────── */
@@ -222,6 +238,7 @@ em { font-style: normal; }
 
 .link-under {
   display: inline-flex; align-items: center; gap: 9px;
+  min-height: 24px;
   font-size: 15.5px; font-weight: 500; letter-spacing: -.015em; color: var(--muted);
   padding-bottom: 3px; border-bottom: 1px solid rgba(23, 21, 18, .24);
   transition: color .25s ease, border-color .25s ease;
@@ -250,7 +267,7 @@ em { font-style: normal; }
   border-color: rgba(23, 21, 18, .13);
   box-shadow: 0 1px 2px rgba(23, 21, 18, .06), 0 18px 44px -20px rgba(23, 21, 18, .44);
 }
-.brand { display: flex; align-items: center; gap: 9px; flex-shrink: 0; }
+.brand { display: inline-flex; align-items: center; gap: 9px; min-height: 24px; flex-shrink: 0; }
 .brand:hover { color: inherit; }
 .brand__mark { width: 9px; height: 9px; background: var(--accent); display: block; flex-shrink: 0; }
 .brand__name { font-size: 15px; font-weight: 600; letter-spacing: -.03em; white-space: nowrap; }
@@ -270,7 +287,7 @@ em { font-style: normal; }
   display: inline-flex; align-items: center; gap: 9px;
   padding: 7px 14px 7px 11px; border-radius: 999px;
   border: 1px solid rgba(23, 21, 18, .13); background: rgba(255, 253, 249, .7);
-  font-size: 12.5px; font-weight: 550; letter-spacing: .005em; line-height: 1; color: var(--muted);
+  font-size: 12.5px; font-weight: 500; letter-spacing: .005em; line-height: 1; color: var(--muted);
   margin-bottom: clamp(24px, 3vw, 34px);
 }
 .eyebrow-pill span:last-child { white-space: nowrap; }
@@ -278,7 +295,7 @@ em { font-style: normal; }
   display: flex; flex-wrap: wrap; gap: 10px 26px;
   margin-top: clamp(34px, 4vw, 52px); padding-top: 20px;
   border-top: 1px solid var(--hair);
-  font-size: 12.5px; font-weight: 520; letter-spacing: 0; line-height: 1.5; color: var(--faint);
+  font-size: 12.5px; font-weight: 500; letter-spacing: 0; line-height: 1.5; color: var(--faint);
 }
 .meta-row--single { margin-top: 20px; padding-top: 0; border: 0; color: var(--faint); }
 
@@ -341,7 +358,7 @@ em { font-style: normal; }
   display: block; font-family: var(--sans); font-weight: var(--w-display);
   font-size: clamp(56px, 8vw, 100px); line-height: .82; letter-spacing: -.04em;
   font-variant-numeric: tabular-nums;
-  color: rgba(255, 255, 255, .09);
+  color: rgba(255, 255, 255, .12);
 }
 .start__t {
   margin-top: clamp(-14px, -1vw, -8px);
@@ -398,10 +415,10 @@ em { font-style: normal; }
 .system__links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; opacity: 0; transition: opacity .5s ease; }
 .area {
   padding: clamp(20px, 2.2vw, 28px); border-radius: 16px;
-  background: rgba(255, 255, 255, .04); border: 1px solid var(--hair-ink);
+  background: rgba(255, 255, 255, .055); border: 1px solid var(--hair-ink);
   transition: transform .4s var(--ease), background .4s ease, border-color .4s ease;
 }
-.area:hover { transform: translateY(-3px); background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .16); }
+.area:hover { transform: translateY(-3px); background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .2); }
 .area h3 { margin-top: 10px; font-size: clamp(17px, 1.5vw, 21px); font-weight: 700; letter-spacing: -.03em; color: var(--on-ink); }
 .area__d { margin-top: 8px; font-size: 14.5px; line-height: 1.5; color: var(--on-ink-dim); text-wrap: pretty; }
 .area--contenido { grid-area: contenido; }
@@ -436,7 +453,7 @@ em { font-style: normal; }
 .steps { display: flex; flex-direction: column; }
 .step { display: flex; gap: 18px; padding: 15px 0; border-top: 1px solid rgba(23, 21, 18, .11); transition: transform .5s var(--ease); }
 .step.is-last { border-bottom: 1px solid rgba(23, 21, 18, .11); }
-.step__n { font-size: 11.5px; font-weight: 640; font-variant-numeric: tabular-nums; line-height: 1.6; letter-spacing: .1em; color: var(--accent); width: 22px; flex-shrink: 0; transition: color .4s ease; }
+.step__n { font-size: 11.5px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.6; letter-spacing: .1em; color: var(--accent); width: 22px; flex-shrink: 0; transition: color .4s ease; }
 .step__t { font-size: clamp(17px, 1.5vw, 21px); font-weight: 700; letter-spacing: -.03em; color: var(--text); transition: color .4s ease; }
 .step__d { font-size: 15px; line-height: 1.5; color: var(--muted); margin-top: 4px; max-width: 32em; transition: color .4s ease; }
 
@@ -468,7 +485,7 @@ em { font-style: normal; }
 .skel--l { height: 5px; width: 88%; background: rgba(23, 21, 18, .16); margin-bottom: 5px; }
 .skel--m { height: 5px; width: 72%; background: rgba(23, 21, 18, .16); }
 .demo__pair { display: flex; gap: 9px; }
-.demo__chip { flex: 1; padding: 11px; border-radius: 11px; background: var(--paper-2); border: 1px solid rgba(23, 21, 18, .08); font-size: 10.5px; font-weight: 620; letter-spacing: .09em; text-transform: uppercase; line-height: 1.3; color: var(--faint); }
+.demo__chip { flex: 1; padding: 11px; border-radius: 11px; background: var(--paper-2); border: 1px solid rgba(23, 21, 18, .08); font-size: 10.5px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; line-height: 1.3; color: var(--faint); }
 .demo__wa { margin-top: 2px; }
 .demo__wa-note { display: flex; align-items: center; gap: 7px; margin-top: 8px; font-size: 11.5px; font-weight: 500; letter-spacing: 0; color: var(--wa-ink); }
 .demo__wa-note .dot { width: 5px; height: 5px; box-shadow: none; }
@@ -546,11 +563,11 @@ em { font-style: normal; }
 .case--flip { grid-template-columns: 1fr 1.35fr; }
 .case__title { font-size: clamp(38px, 5.6vw, 74px); line-height: .93; letter-spacing: -.04em; font-weight: var(--w-display); text-wrap: balance; }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-.tags li { padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(23, 21, 18, .14); font-size: 10.5px; font-weight: 620; letter-spacing: .09em; text-transform: uppercase; line-height: 1; color: var(--muted); }
+.tags li { padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(23, 21, 18, .14); font-size: 10.5px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; line-height: 1; color: var(--muted); }
 .facts { margin-top: clamp(28px, 3.2vw, 40px); }
 .facts > div { display: flex; flex-wrap: wrap; gap: 6px 20px; padding: 15px 0; border-top: 1px solid var(--hair); }
 .facts > div.is-last { border-bottom: 1px solid var(--hair); }
-.facts dt { font-size: 10.5px; font-weight: 640; letter-spacing: .1em; text-transform: uppercase; line-height: 1.7; color: var(--faint); width: 92px; flex-shrink: 0; }
+.facts dt { font-size: 10.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; line-height: 1.7; color: var(--faint); width: 92px; flex-shrink: 0; }
 .facts dd { flex: 1 1 240px; font-size: 15.5px; line-height: 1.5; color: #33302A; }
 .case__link { display: inline-flex; align-items: center; gap: 10px; margin-top: 26px; font-size: 15.5px; font-weight: 600; letter-spacing: -.02em; }
 .case__shot { display: flex; justify-content: center; }
@@ -578,7 +595,7 @@ em { font-style: normal; }
   box-shadow: var(--sh-card);
 }
 .portrait figcaption {
-  margin-top: 14px; font-size: 10.5px; font-weight: 620;
+  margin-top: 14px; font-size: 10.5px; font-weight: 600;
   letter-spacing: .1em; text-transform: uppercase; color: var(--faint);
 }
 /* Variantes desktop / mobile. Por defecto manda desktop; el switch está en el
@@ -593,17 +610,17 @@ em { font-style: normal; }
 .precio .wrap { position: relative; }
 .precio__grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: clamp(20px, 3vw, 40px); align-items: stretch; }
 .offer { padding: clamp(28px, 3.4vw, 44px); border-radius: 22px; background: linear-gradient(165deg, #2C2820, #1A1813 55%); border: 1px solid rgba(255, 255, 255, .13); box-shadow: 0 50px 100px -50px rgba(0, 0, 0, .95), inset 0 1px 0 rgba(255, 255, 255, .1); }
-.offer > .label--tag { display: block; font-size: 12px; letter-spacing: .02em; text-transform: none; }
+.offer > .label--tag { display: block; font-size: 12px; font-weight: 600; letter-spacing: .02em; text-transform: none; }
 .offer__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; margin-top: 22px; }
 .offer__price .label { font-size: 13px; letter-spacing: .08em; color: var(--on-ink-dim); }
 .offer__fig { font-size: clamp(40px, 5.6vw, 72px); font-weight: var(--w-display); letter-spacing: -.04em; line-height: .9; }
-.offer__terms { display: inline-flex; align-items: center; gap: 10px; margin-top: 16px; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .14); font-size: 13.5px; color: #C6C0B4; }
+.offer__terms { display: inline-flex; align-items: center; gap: 10px; margin-top: 16px; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .14); font-size: 13.5px; color: var(--on-ink-2); }
 .offer__terms .dot { width: 4px; height: 4px; background: var(--muted-2); }
 .offer__note { margin-top: 26px; font-size: 16.5px; line-height: 1.6; color: var(--on-ink-muted); max-width: 36em; text-wrap: pretty; }
 .offer .btn { margin-top: 32px; }
 .guarantee { display: flex; flex-direction: column; gap: 12px; }
 .guarantee > .label--tag { font-size: 12px; letter-spacing: .02em; text-transform: none; margin-bottom: 6px; }
-.guarantee__item { padding: 18px; border-radius: 14px; background: rgba(255, 255, 255, .04); border: 1px solid var(--hair-ink); font-size: 14.5px; line-height: 1.5; color: #C6C0B4; }
+.guarantee__item { padding: 18px; border-radius: 14px; background: rgba(255, 255, 255, .055); border: 1px solid var(--hair-ink); font-size: 14.5px; line-height: 1.5; color: var(--on-ink-2); }
 .guarantee__item--warn { background: rgba(226, 86, 74, .09); border-color: rgba(226, 86, 74, .25); color: #E7C3BF; }
 
 /* ── 08 · CTA FINAL ──────────────────────────────────────── */
@@ -633,10 +650,15 @@ em { font-style: normal; }
 .brand--footer .brand__name { font-size: 20px; letter-spacing: -.035em; color: var(--on-ink); }
 .footer__tag { margin-top: 12px; font-size: 12px; font-weight: 500; letter-spacing: .01em; line-height: 1.55; color: var(--on-ink-faint); }
 .footer__cols { display: flex; flex-wrap: wrap; gap: 30px 56px; }
-.footer__cols nav { display: flex; flex-direction: column; gap: 9px; }
-.footer__cols a { font-size: 14.5px; transition: color .25s ease; }
+.footer__cols nav { display: flex; flex-direction: column; gap: 2px; }
+/* 24px de alto mínimo: WCAG 2.2 AA 2.5.8. El gap bajó a 2px porque ahora
+   el área táctil la da el padding, no la separación. */
+.footer__cols a {
+  display: inline-flex; align-items: center; min-height: 24px;
+  font-size: 14.5px; transition: color .25s ease;
+}
 .footer__cols a:hover { color: var(--on-ink); }
-.footer__label { font-size: 10.5px; font-weight: 640; letter-spacing: .1em; text-transform: uppercase; color: var(--on-ink-faint); margin-bottom: 5px; }
+.footer__label { font-size: 10.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--on-ink-faint); margin-bottom: 5px; }
 .footer__bottom { margin-top: clamp(38px, 5vw, 60px); padding-top: 22px; border-top: 1px solid var(--hair-ink); display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; font-size: 11.5px; font-weight: 500; letter-spacing: .01em; line-height: 1.6; color: var(--on-ink-faint); }
 
 /* ── CURSOR ──────────────────────────────────────────────────
@@ -644,15 +666,17 @@ em { font-style: normal; }
    `difference` lo hace legible sobre cream y sobre ink sin cambiar color. */
 .cursor-dot {
   position: fixed; top: 0; left: 0; z-index: 300;
-  width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  width: 32px; height: 32px; margin: -16px 0 0 -16px;
   background: #fff; border-radius: 999px;
   mix-blend-mode: difference; pointer-events: none;
   opacity: 0; will-change: transform;
-  transition: opacity .25s ease, width .25s var(--ease), height .25s var(--ease),
-              margin .25s var(--ease);
+  /* La caja es fija y el tamaño lo da un scale que interpola el mismo rAF que
+     mueve el punto (14px en reposo = scale .4375, 32px sobre un link = 1).
+     Antes se animaban width, height y margin: tres propiedades de layout
+     recalculadas en cada hover sobre cualquier link de la página. */
+  transition: opacity .25s ease;
 }
 .cursor-dot.is-on { opacity: 1; }
-.cursor-dot.is-over { width: 32px; height: 32px; margin: -16px 0 0 -16px; }
 
 @media (hover: none), (pointer: coarse) { .cursor-dot { display: none; } }
 @media (prefers-reduced-motion: reduce) { .cursor-dot { display: none; } }

@@ -9,6 +9,21 @@
   var HOVER = window.matchMedia('(hover: hover)').matches;
   var DESKTOP = function () { return window.innerWidth > 940; };
 
+  /* ── Scroll: un solo listener para toda la página ───────────
+     Había tres (header, escena sticky, FAB) y cada uno leía layout por su
+     cuenta en cada evento. Ahora se registran acá y corren juntos, una vez
+     por frame: el navegador hace una sola pasada de lectura en vez de tres. */
+  var scrollJobs = [];
+  var scrollTick = null;
+  function onScroll(fn) { scrollJobs.push(fn); fn(); }
+  window.addEventListener('scroll', function () {
+    if (scrollTick) return;
+    scrollTick = requestAnimationFrame(function () {
+      scrollTick = null;
+      for (var i = 0; i < scrollJobs.length; i++) scrollJobs[i]();
+    });
+  }, { passive: true });
+
   /* ── Reveals al entrar en viewport ───────────────────────── */
   function initReveal() {
     var els = Array.prototype.slice.call(document.querySelectorAll('[data-r]'));
@@ -25,7 +40,10 @@
       el.style.opacity = '0';
       el.style.transform = from(el.getAttribute('data-r'));
       el.style.transition = 'opacity .85s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1)';
-      el.style.willChange = 'opacity, transform';
+      // `will-change` NO se pone acá. Ponerlo de entrada promovía los ~63
+      // elementos revelables a capa propia desde el load, y los que nunca
+      // entran al viewport se quedaban promovidos para siempre. Se pone un
+      // frame antes de animar y se saca al terminar.
     });
 
     var io = new IntersectionObserver(function (entries) {
@@ -35,9 +53,12 @@
         // entran casi a la vez, así que el delay se lee como demora: se anula.
         var delay = DESKTOP() ? parseInt(e.target.getAttribute('data-rd') || '0', 10) : 0;
         setTimeout(function () {
-          e.target.style.opacity = '1';
-          e.target.style.transform = 'none';
-          setTimeout(function () { e.target.style.willChange = 'auto'; }, 1100);
+          e.target.style.willChange = 'opacity, transform';
+          requestAnimationFrame(function () {
+            e.target.style.opacity = '1';
+            e.target.style.transform = 'none';
+            setTimeout(function () { e.target.style.willChange = 'auto'; }, 1100);
+          });
         }, delay);
         io.unobserve(e.target);
       });
@@ -70,9 +91,7 @@
   function initHeader() {
     var pill = document.querySelector('[data-header-pill]');
     if (!pill) return;
-    var on = function () { pill.classList.toggle('is-scrolled', window.scrollY > 50); };
-    on();
-    window.addEventListener('scroll', on, { passive: true });
+    onScroll(function () { pill.classList.toggle('is-scrolled', window.scrollY > 50); });
   }
 
   /* ── Hero: parallax de las cards con el cursor ───────────── */
@@ -150,8 +169,7 @@
       apply(Math.min(total - 1, Math.floor(p * (total + 0.0001))));
     };
 
-    update();
-    window.addEventListener('scroll', update, { passive: true });
+    onScroll(update);
     window.addEventListener('resize', update);
   }
 
@@ -269,11 +287,15 @@
   function initFab() {
     var fab = document.querySelector('[data-fab]');
     if (!fab) return;
+    var cta = document.querySelector('.cta');
+    // Se apaga al llegar al cierre: ahí abajo el botón grande dice lo mismo,
+    // y el flotante estaba tapando una línea de texto en cada scroll.
     var on = function () {
-      fab.classList.toggle('is-visible', window.innerWidth < 860 && window.scrollY > window.innerHeight * 0.9);
+      var enElCierre = cta && cta.getBoundingClientRect().top < window.innerHeight * 0.9;
+      fab.classList.toggle('is-visible',
+        window.innerWidth < 860 && window.scrollY > window.innerHeight * 0.9 && !enElCierre);
     };
-    on();
-    window.addEventListener('scroll', on, { passive: true });
+    onScroll(on);
     window.addEventListener('resize', on);
   }
 
@@ -286,13 +308,18 @@
     dot.setAttribute('aria-hidden', 'true');
     document.body.appendChild(dot);
 
+    var CHICO = 0.4375; // 14px sobre la caja fija de 32px
     var tx = 0, ty = 0, cx = 0, cy = 0, raf = null, started = false;
+    var ts = CHICO, cs = CHICO;
 
     var loop = function () {
       cx += (tx - cx) * 0.3;
       cy += (ty - cy) * 0.3;
-      dot.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)';
-      raf = (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) ? requestAnimationFrame(loop) : null;
+      cs += (ts - cs) * 0.18;
+      dot.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)' +
+        ' scale(' + cs.toFixed(3) + ')';
+      raf = (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1 || Math.abs(ts - cs) > 0.002)
+        ? requestAnimationFrame(loop) : null;
     };
 
     window.addEventListener('pointermove', function (e) {
@@ -300,7 +327,7 @@
       tx = e.clientX; ty = e.clientY;
       if (!started) { started = true; cx = tx; cy = ty; dot.classList.add('is-on'); }
       var over = e.target.closest && e.target.closest('a, button, summary, [data-mag], [data-lift]');
-      dot.classList.toggle('is-over', !!over);
+      ts = over ? 1 : CHICO;
       if (!raf) raf = requestAnimationFrame(loop);
     }, { passive: true });
 
