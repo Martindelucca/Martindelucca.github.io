@@ -568,6 +568,24 @@ em { font-style: normal; }
 .footer__label { font-size: 9.5px; letter-spacing: .16em; color: var(--muted); margin-bottom: 3px; }
 .footer__bottom { margin-top: clamp(38px, 5vw, 60px); padding-top: 22px; border-top: 1px solid var(--hair-ink); display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; font-size: 10px; font-weight: 400; letter-spacing: .13em; text-transform: uppercase; line-height: 1.6; color: var(--muted); }
 
+/* ── CURSOR ──────────────────────────────────────────────────
+   Anillo que acompaña al puntero del sistema (no lo reemplaza).
+   `difference` lo hace legible sobre cream y sobre ink sin cambiar color. */
+.cursor-dot {
+  position: fixed; top: 0; left: 0; z-index: 300;
+  width: 26px; height: 26px; margin: -13px 0 0 -13px;
+  border: 1.5px solid #fff; border-radius: 999px;
+  mix-blend-mode: difference; pointer-events: none;
+  opacity: 0; will-change: transform;
+  transition: opacity .3s ease, width .3s var(--ease), height .3s var(--ease),
+              margin .3s var(--ease), border-width .3s ease;
+}
+.cursor-dot.is-on { opacity: 1; }
+.cursor-dot.is-over { width: 46px; height: 46px; margin: -23px 0 0 -23px; border-width: 1px; }
+
+@media (hover: none), (pointer: coarse) { .cursor-dot { display: none; } }
+@media (prefers-reduced-motion: reduce) { .cursor-dot { display: none; } }
+
 /* ── FAB MOBILE ──────────────────────────────────────────── */
 .fab {
   position: fixed; right: 16px; bottom: 16px; z-index: 190;

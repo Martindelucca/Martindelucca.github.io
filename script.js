@@ -272,6 +272,37 @@
     window.addEventListener('resize', on);
   }
 
+  /* ── Circulito que sigue al cursor ───────────────────────── */
+  function initCursor() {
+    if (REDUCED || !HOVER) return;
+
+    var dot = document.createElement('div');
+    dot.className = 'cursor-dot';
+    dot.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(dot);
+
+    var tx = 0, ty = 0, cx = 0, cy = 0, raf = null, started = false;
+
+    var loop = function () {
+      cx += (tx - cx) * 0.18;
+      cy += (ty - cy) * 0.18;
+      dot.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)';
+      raf = (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) ? requestAnimationFrame(loop) : null;
+    };
+
+    window.addEventListener('pointermove', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      tx = e.clientX; ty = e.clientY;
+      if (!started) { started = true; cx = tx; cy = ty; dot.classList.add('is-on'); }
+      var over = e.target.closest && e.target.closest('a, button, summary, [data-mag], [data-lift]');
+      dot.classList.toggle('is-over', !!over);
+      if (!raf) raf = requestAnimationFrame(loop);
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', function () { dot.classList.remove('is-on'); });
+    document.addEventListener('mouseenter', function () { if (started) dot.classList.add('is-on'); });
+  }
+
   function boot() {
     initReveal();
     initClock();
@@ -280,6 +311,7 @@
     initJourney();
     initSystem();
     initMicro();
+    initCursor();
     initFab();
   }
 
