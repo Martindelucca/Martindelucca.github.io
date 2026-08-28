@@ -23,11 +23,10 @@ assets/         capturas de los casos + wordmark SVG
 | `--on-ink` / `--on-ink-muted` / `--on-ink-dim` / `--on-ink-faint` | `#F2EFE8` / `#A39D91` / `#9A958B` / `#948F85` | rampa de texto sobre oscuro |
 | `--deco` | `#B5AFA3` | **nunca texto**: cuadrados, puntos, reglas |
 
-Tipografía: **dos familias, ninguna mono.** **Instrument Sans** hace interfaz, cuerpo, titulares y
+Tipografía: **dos familias, ninguna mono.** **Archivo** hace interfaz, cuerpo, titulares y
 labels; **Literata** italic 300 entra sólo en dos énfasis y en la pullquote.
 
-El display va a `var(--w-display)` = **700**, que es el tope real de Instrument Sans: escribir 800
-sería un número que el navegador clampea igual. Tracking `-.04em` como piso, nunca más cerrado.
+El display va a `var(--w-display)` = **700**. Tracking `-.04em` como piso, nunca más cerrado.
 
 Lo que antes pedía una mono es ahora `.label` — la misma sans a 620–640, cuerpo chico y algo de
 tracking. **La versalita se quedó sólo donde funciona como etiqueta** (chrome de card, campos de
