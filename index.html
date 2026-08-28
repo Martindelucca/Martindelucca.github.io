@@ -33,6 +33,8 @@
 
 <body>
 
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
   <!-- ═══ HEADER ═══ -->
   <header class="site-header">
     <div class="nav-pill" data-header-pill>
@@ -47,13 +49,14 @@
         <a href="#sobre-mi">Sobre mí</a>
       </nav>
       <a class="btn btn--dark btn--sm"
-        href="https://wa.me/543524401654?text=Hola%20Martin%2C%20tengo%20un%20%5Btipo%20de%20negocio%5D%20y%20quiero%20contarte%20qu%C3%A9%20necesito%20para%20mi%20web."
-        target="_blank" rel="noopener" data-mag>
-        <span class="btn__label">Analizar mi proyecto</span>
+        href="https://wa.me/543524401654?text=Hola%20Martin%2C%20quiero%20contarte%20sobre%20mi%20negocio%20y%20ver%20qu%C3%A9%20tipo%20de%20web%20me%20podr%C3%ADa%20servir." data-mag>
+        <span class="btn__label">Analizar mi negocio</span>
         <span class="btn__arrow" aria-hidden="true">→</span>
       </a>
     </div>
   </header>
+
+  <main id="contenido">
 
   <!-- ═══ HERO ═══ -->
   <section class="hero bg-grid" id="top">
@@ -72,18 +75,24 @@
         </h1>
 
         <p class="lead" data-r="up" data-rd="170">
-          Entiendo qué hacés, ordeno lo que necesitás mostrar y construyo una página para presentar tu servicio,
-          orientada a convertir visitas en consultas.
+          Entiendo qué hacés, ordeno lo que necesitás mostrar y construyo una página que presenta tu servicio y
+          deja a mano el modo de contactarte.
         </p>
         <div class="actions" data-r="up" data-rd="240">
           <a class="btn btn--dark"
-            href="https://wa.me/543524401654?text=Hola%20Martin%2C%20tengo%20un%20%5Btipo%20de%20negocio%5D%20y%20quiero%20contarte%20qu%C3%A9%20necesito%20para%20mi%20web."
-            target="_blank" rel="noopener" data-mag>
-            Analizar mi proyecto
+            href="https://wa.me/543524401654?text=Hola%20Martin%2C%20quiero%20contarte%20sobre%20mi%20negocio%20y%20ver%20qu%C3%A9%20tipo%20de%20web%20me%20podr%C3%ADa%20servir." data-mag>
+            Analizar mi negocio
             <span class="btn__arrow btn__arrow--lg" aria-hidden="true">→</span>
           </a>
           <a class="link-under" href="#incluye">Ver qué incluye</a>
         </div>
+
+        <!-- Sólo mobile: bajo los 940px no hay nav y estos dos son los accesos
+             que más se buscan. En desktop los cubre el nav del header. -->
+        <nav class="hero__jump" aria-label="Accesos rápidos" data-r="up" data-rd="300">
+          <a href="#casos">Ver trabajos</a>
+          <a href="#precio">Inversión · <b>$250.000</b></a>
+        </nav>
 
         <div class="meta-row" data-r="up" data-rd="320">
           <span>Te respondo yo por WhatsApp</span>
@@ -122,15 +131,15 @@
                 <span class="mono mono--tag mono--faint only-desktop">PRESENTA · EXPLICA · DA CONFIANZA</span>
               </header>
               <ul class="rowlist only-desktop">
-                <li><span class="rowlist__n">01</span><span class="rowlist__t">Quién sos y qué hacés</span><span
+                <li><span class="rowlist__t">Quién sos y qué hacés</span><span
                     class="rowlist__bar"></span></li>
-                <li><span class="rowlist__n">02</span><span class="rowlist__t">Servicios o productos</span><span
+                <li><span class="rowlist__t">Servicios o productos</span><span
                     class="rowlist__bar"></span></li>
-                <li><span class="rowlist__n">03</span><span class="rowlist__t">Cómo trabajás</span><span
+                <li><span class="rowlist__t">Cómo trabajás</span><span
                     class="rowlist__bar"></span></li>
-                <li><span class="rowlist__n">04</span><span class="rowlist__t">Trabajos y preguntas</span><span
+                <li><span class="rowlist__t">Trabajos y preguntas</span><span
                     class="rowlist__bar"></span></li>
-                <li class="is-last"><span class="rowlist__n">05</span><span class="rowlist__t">Cómo
+                <li class="is-last"><span class="rowlist__t">Cómo
                     contactarte</span><span class="rowlist__bar rowlist__bar--accent"></span></li>
               </ul>
               <p class="rowlist__compact only-mobile">Presenta · Explica · Da confianza</p>
@@ -168,27 +177,27 @@
   <!-- ═══ 01 · TU PUNTO DE PARTIDA ═══ -->
   <section class="section section--ink bg-dots partida">
     <div class="wrap">
-      <p class="eyebrow" data-r="up">01 — Tu punto de partida</p>
+      <p class="eyebrow" data-r="up">Tu punto de partida</p>
       <h2 class="h2 h2--md partida__h" data-r="up" data-rd="60">
         Una web hace distintos<br />trabajos según
-        <span class="dim">dónde</span> <em class="em em--lt">estés hoy</em><span class="dim">.</span>
+        <span class="dim">dónde</span> estés hoy<span class="dim">.</span>
       </h2>
 
       <ol class="starts">
         <li class="start" data-r="up">
-          <span class="start__n mono">01</span>
+          <span class="start__n mono" aria-hidden="true">01</span>
           <h3 class="start__t">Estás empezando</h3>
           <span class="start__rule" aria-hidden="true"></span>
           <p class="start__d">Un lugar serio para salir a mostrar lo que hacés.</p>
         </li>
         <li class="start start--shift" data-r="up" data-rd="90">
-          <span class="start__n mono">02</span>
+          <span class="start__n mono" aria-hidden="true">02</span>
           <h3 class="start__t">Ya estás trabajando</h3>
           <span class="start__rule" aria-hidden="true"></span>
           <p class="start__d">Ordenar todo lo que hoy mostrás por separado.</p>
         </li>
         <li class="start" data-r="up" data-rd="180">
-          <span class="start__n mono">03</span>
+          <span class="start__n mono" aria-hidden="true">03</span>
           <h3 class="start__t">Tu negocio creció</h3>
           <span class="start__rule" aria-hidden="true"></span>
           <p class="start__d">Una web a la altura de lo que ya construiste.</p>
@@ -203,8 +212,8 @@
       <div class="wrap journey__inner">
 
         <div class="journey__copy">
-          <p class="eyebrow" data-r="up">02 — El nuevo recorrido</p>
-          <h2 class="h2 h2--sm" data-r="up" data-rd="60">Lo que ve alguien<br />que <em class="em">llega</em>.</h2>
+          <p class="eyebrow" data-r="up">02 — Cuatro momentos</p>
+          <h2 class="h2 h2--sm" data-r="up" data-rd="60">Lo que ve alguien<br />que llega.</h2>
 
           <ol class="steps" data-steps>
             <li class="step" data-step="0">
@@ -269,7 +278,7 @@
   <section class="section section--ink diferencial">
     <div class="diferencial__grid" aria-hidden="true"></div>
     <div class="wrap">
-      <p class="eyebrow" data-r="up">03 — Cómo trabajo</p>
+      <p class="eyebrow" data-r="up">Cómo trabajo</p>
       <h2 class="h2 h2--lg" data-r="up" data-rd="60">No empiezo<br />diseñando.</h2>
       <p class="pullquote" data-r="up" data-rd="130">Primero entiendo tu negocio y qué tiene que quedar claro. El diseño
         viene después, cuando ya sé qué tiene que decir.</p>
@@ -298,7 +307,7 @@
             <li>Estructurar</li>
             <li>Diseñar</li>
             <li>Desarrollar</li>
-            <li><em class="em em--lt">Publicar</em></li>
+            <li>Publicar</li>
           </ul>
         </div>
         <p class="handoff__note" data-r="up" data-rd="200">No hace falta que llegues con la página pensada ni
@@ -310,21 +319,18 @@
   <!-- ═══ 04 · QUÉ INCLUYE ═══ -->
   <section class="section section--ink bg-dots" id="incluye">
     <div class="wrap">
-      <p class="eyebrow" data-r="up">04 — Qué incluye</p>
-      <h2 class="h2 h2--md" data-r="up" data-rd="60">Todo lo que hace falta<br />para dejarla <em
-          class="em em--lt">funcionando</em>.</h2>
+      <p class="eyebrow" data-r="up">Qué incluye</p>
+      <h2 class="h2 h2--md" data-r="up" data-rd="60">Todo lo que hace falta<br />para dejarla funcionando.</h2>
 
       <div class="system" data-system>
         <svg class="system__links" data-sys-svg aria-hidden="true"></svg>
 
         <article class="area area--contenido" data-mod="l0" data-r="left">
-          <p class="mono mono--idx">01</p>
           <h3>Contenido</h3>
           <p class="area__d">Qué mostrar, cómo contarlo y todos los textos escritos.</p>
         </article>
 
         <article class="area area--diseno" data-mod="r0" data-r="right">
-          <p class="mono mono--idx">02</p>
           <h3>Estructura y diseño</h3>
           <p class="area__d">La estructura que necesita tu caso y una interfaz hecha alrededor de tu negocio.</p>
         </article>
@@ -337,13 +343,11 @@
         </div>
 
         <article class="area area--desarrollo" data-mod="l1" data-r="left" data-rd="90">
-          <p class="mono mono--idx">03</p>
           <h3>Desarrollo</h3>
           <p class="area__d">Celular y computadora, con las funciones que el proyecto necesite.</p>
         </article>
 
         <article class="area area--publicacion" data-mod="r1" data-r="right" data-rd="90">
-          <p class="mono mono--idx">04</p>
           <h3>Publicación</h3>
           <p class="area__d">Dominio, hosting y analítica básica. Online y funcionando.</p>
         </article>
@@ -355,7 +359,7 @@
   <section class="section section--paper" id="casos">
     <div class="wrap">
       <div class="rule-head">
-        <p class="eyebrow" data-r="up">05 — Trabajos</p>
+        <h2 class="h2 h2--sm" data-r="up">Dos que ya están online.</h2>
       </div>
 
       <article class="case">
@@ -384,14 +388,16 @@
           </dl>
           <a class="case__link" href="https://sinbrujulaviajes.com.ar" target="_blank" rel="noopener" data-r="up"
             data-rd="210">
-            sinbrujulaviajes.com.ar<span class="btn__arrow btn__arrow--ghost" aria-hidden="true">↗</span>
+            sinbrujulaviajes.com.ar<span class="vh"> (abre en una pestaña nueva)</span><span class="btn__arrow btn__arrow--ghost" aria-hidden="true">↗</span>
           </a>
         </div>
         <div class="case__shot" data-r="scale" data-rd="80">
           <div class="shot" data-tilt>
             <span class="shot__shadow" aria-hidden="true"></span>
-            <img src="assets/caso-sinbrujula.webp" alt="Sin Brújula Viajes en el celular" width="716" height="1460"
-              loading="lazy" />
+            <img src="assets/caso-sinbrujula.webp"
+              srcset="assets/caso-sinbrujula-400.webp 400w, assets/caso-sinbrujula.webp 716w"
+              sizes="(max-width: 600px) 186px, (max-width: 940px) 200px, 340px"
+              alt="Sin Brújula Viajes en el celular" width="716" height="1460" loading="lazy" decoding="async" />
           </div>
         </div>
       </article>
@@ -400,8 +406,10 @@
         <div class="case__shot" data-r="scale" data-rd="80">
           <div class="shot" data-tilt>
             <span class="shot__shadow" aria-hidden="true"></span>
-            <img src="assets/caso-mundojjersey.webp" alt="Mundo JJersey en el celular" width="716" height="1460"
-              loading="lazy" />
+            <img src="assets/caso-mundojjersey.webp"
+              srcset="assets/caso-mundojjersey-400.webp 400w, assets/caso-mundojjersey.webp 716w"
+              sizes="(max-width: 600px) 186px, (max-width: 940px) 200px, 340px"
+              alt="Mundo JJersey en el celular" width="716" height="1460" loading="lazy" decoding="async" />
           </div>
         </div>
         <div class="case__copy">
@@ -429,7 +437,7 @@
           </dl>
           <a class="case__link" href="https://mundojjersey.com" target="_blank" rel="noopener" data-r="up"
             data-rd="210">
-            mundojjersey.com<span class="btn__arrow btn__arrow--ghost" aria-hidden="true">↗</span>
+            mundojjersey.com<span class="vh"> (abre en una pestaña nueva)</span><span class="btn__arrow btn__arrow--ghost" aria-hidden="true">↗</span>
           </a>
         </div>
       </article>
@@ -439,15 +447,24 @@
   <!-- ═══ 06 · SOBRE MÍ ═══ -->
   <section class="section bg-grid" id="sobre-mi">
     <div class="wrap">
-      <p class="eyebrow eyebrow--spaced" data-r="up">06 — Sobre mí</p>
+      <p class="eyebrow eyebrow--spaced" data-r="up">Sobre mí</p>
       <div class="about">
 
+        <!-- TODO · foto real. Cuando exista un retrato de Martin (vertical, 4:5,
+             ~800×1000, sin recorte circular), guardarlo como assets/martin.webp y
+             descomentar el <figure> de abajo: `.about` pasa sola a dos columnas.
+             No se genera con IA, no se usa stock y no se deja un placeholder.
+        <figure class="portrait" data-r="scale" data-rd="80">
+          <img src="assets/martin.webp" alt="Martin de Lucca" width="800" height="1000" loading="lazy" decoding="async" />
+          <figcaption>Córdoba, Argentina</figcaption>
+        </figure>
+        -->
+
         <div class="about__main">
-          <h2 class="h2 h2--xs" data-r="up" data-rd="60">Soy desarrollador, pero el trabajo no empieza en el <em
-              class="em">código</em>.</h2>
+          <h2 class="h2 h2--xs" data-r="up" data-rd="60">Soy desarrollador, pero el trabajo no empieza en el código.</h2>
           <p class="lead" data-r="up" data-rd="120">Antes de abrir el editor necesito entender tu negocio y qué debería
             encontrar alguien cuando entra a tu web. Sin eso, una página es decoración.</p>
-          <p class="lead" data-r="up" data-rd="170">Trabajo solo y por proyecto, desde Villa del Totoral. No soy una
+          <p class="lead" data-r="up" data-rd="170">Trabajo solo y por proyecto, desde Córdoba. No soy una
             agencia
             de veinte personas: el mismo que entiende el negocio es el que escribe, diseña y desarrolla. Y te lo
             entrego funcionando.</p>
@@ -460,10 +477,10 @@
   <section class="section section--ink precio" id="precio">
     <div class="precio__glow" aria-hidden="true"></div>
     <div class="wrap">
-      <p class="eyebrow" data-r="up">07 — La inversión</p>
+      <p class="eyebrow" data-r="up">La inversión</p>
       <h2 class="h2 h2--md h2--spaced" data-r="up" data-rd="60">No comprás una plantilla. <br class="d-br" /> <span
-          class="dim">Construyo el recorrido</span> <br class="d-br" /> <span class="dim"><span
-            class="only-desktop">completo </span>alrededor de <br class="d-br" /> tu negocio.</span></h2>
+          class="dim">Construyo la página</span> <br class="d-br" /> <span class="dim"><span
+            class="only-desktop">entera </span>alrededor de <br class="d-br" /> tu negocio.</span></h2>
 
       <div class="precio__grid">
         <div class="offer" data-r="up" data-rd="100">
@@ -473,12 +490,11 @@
           <p class="offer__terms">50% para comenzar <span class="dot dot--grey" aria-hidden="true"></span> 50% al
             entregar</p>
           <p class="offer__note">Ese es el precio del trabajo completo, no un punto de partida. Si tu caso necesita algo
-            más —un catálogo, un sistema de reservas—, lo miramos antes de empezar y lo cotizamos aparte. No aparece
-            después.</p>
+            más —un catálogo, un sistema de reservas—, lo miramos antes de empezar y lo cotizamos aparte.
+          </p>
           <a class="btn btn--light"
-            href="https://wa.me/543524401654?text=Hola%20Martin%2C%20tengo%20un%20%5Btipo%20de%20negocio%5D%20y%20quiero%20contarte%20qu%C3%A9%20necesito%20para%20mi%20web."
-            target="_blank" rel="noopener" data-mag>
-            Analizar mi proyecto
+            href="https://wa.me/543524401654?text=Hola%20Martin%2C%20quiero%20contarte%20sobre%20mi%20negocio%20y%20ver%20qu%C3%A9%20tipo%20de%20web%20me%20podr%C3%ADa%20servir." data-mag>
+            Analizar mi negocio
             <span class="btn__arrow btn__arrow--lg" aria-hidden="true">→</span>
           </a>
         </div>
@@ -501,14 +517,12 @@
   <section class="section section--paper faq" id="preguntas">
     <div class="wrap">
       <div class="rule-head">
-        <p class="eyebrow" data-r="up">08 — Preguntas</p>
-        <p class="eyebrow" data-r="up" data-rd="60">Lo que me preguntan antes de empezar</p>
+        <h2 class="h2 h2--sm" data-r="up">Lo que me preguntan<br />antes de empezar.</h2>
       </div>
 
       <div class="faq__grid">
         <details class="faq__item" data-r="up">
           <summary class="faq__sum">
-            <span class="faq__n mono">01</span>
             <h3 class="faq__q">¿Para qué necesito una web si ya tengo Instagram?</h3>
             <span class="faq__ico" aria-hidden="true"></span>
           </summary>
@@ -519,7 +533,6 @@
 
         <details class="faq__item" data-r="up" data-rd="70">
           <summary class="faq__sum">
-            <span class="faq__n mono">02</span>
             <h3 class="faq__q">¿Y si todavía estoy empezando?</h3>
             <span class="faq__ico" aria-hidden="true"></span>
           </summary>
@@ -530,7 +543,6 @@
 
         <details class="faq__item" data-r="up" data-rd="140">
           <summary class="faq__sum">
-            <span class="faq__n mono">03</span>
             <h3 class="faq__q">¿Y si después nadie entra a la página?</h3>
             <span class="faq__ico" aria-hidden="true"></span>
           </summary>
@@ -540,7 +552,6 @@
 
         <details class="faq__item" data-r="up" data-rd="210">
           <summary class="faq__sum">
-            <span class="faq__n mono">04</span>
             <h3 class="faq__q">¿Tengo que preparar yo los textos?</h3>
             <span class="faq__ico" aria-hidden="true"></span>
           </summary>
@@ -551,7 +562,6 @@
 
         <details class="faq__item" data-r="up" data-rd="280">
           <summary class="faq__sum">
-            <span class="faq__n mono">05</span>
             <h3 class="faq__q">¿Voy a tener que pagar todos los meses?</h3>
             <span class="faq__ico" aria-hidden="true"></span>
           </summary>
@@ -562,12 +572,13 @@
 
         <details class="faq__item" data-r="up" data-rd="350">
           <summary class="faq__sum">
-            <span class="faq__n mono">06</span>
             <h3 class="faq__q">¿Cómo sé si esta inversión tiene sentido para mi negocio?</h3>
             <span class="faq__ico" aria-hidden="true"></span>
           </summary>
-          <p class="faq__a">Depende de qué necesitás resolver. Antes de empezar vemos tu caso y el alcance. Si una web
-            no tiene una función clara para tu negocio, prefiero decírtelo antes de que gastes plata.</p>
+          <p class="faq__a">Depende de qué necesitás resolver. El trabajo completo son $250.000 ARS, 50% para empezar
+            y 50% al entregar. Antes de arrancar vemos tu caso y el alcance: si una web no tiene una función clara para
+            tu negocio, prefiero decírtelo antes de que gastes plata.
+            <a class="faq__jump" href="#precio">Ver la inversión <span aria-hidden="true">↑</span></a></p>
         </details>
       </div>
     </div>
@@ -578,15 +589,13 @@
     <div class="cta__glow" aria-hidden="true"></div>
     <div class="wrap cta__inner">
       <div class="cta__copy">
-        <p class="eyebrow eyebrow--spaced" data-r="up">09 — Siguiente paso</p>
         <h2 class="h2 h2--lg" data-r="up" data-rd="60">Veamos si una página web<br />realmente <em class="em">tiene
             sentido</em><br />para tu negocio.</h2>
         <p class="lead" data-r="up" data-rd="130">Contame qué hacés y qué necesitás mostrar. Veo tu caso y te digo qué
           tipo de web construiría, qué incluiría y si tiene sentido para tu proyecto. Sin costo.</p>
         <a class="btn btn--dark btn--lg"
-          href="https://wa.me/543524401654?text=Hola%20Martin%2C%20tengo%20un%20%5Btipo%20de%20negocio%5D%20y%20quiero%20contarte%20qu%C3%A9%20necesito%20para%20mi%20web."
-          target="_blank" rel="noopener" data-mag data-r="up" data-rd="190">
-          Quiero analizar mi proyecto
+          href="https://wa.me/543524401654?text=Hola%20Martin%2C%20quiero%20contarte%20sobre%20mi%20negocio%20y%20ver%20qu%C3%A9%20tipo%20de%20web%20me%20podr%C3%ADa%20servir." data-mag data-r="up" data-rd="190">
+          Quiero analizar mi negocio
           <span class="btn__arrow btn__arrow--xl" aria-hidden="true">→</span>
         </a>
         <p class="meta-row meta-row--single" data-r="up" data-rd="240"><span>Respondo yo · Córdoba, Argentina</span></p>
@@ -603,15 +612,17 @@
             <span class="dot dot--green wa__dot" aria-hidden="true"></span>
           </header>
           <div class="wa__body">
-            <p class="bubble bubble--out">Hola Martin, tengo un <span class="bubble__blank">[tipo de negocio]</span> y
-              quiero contarte qué necesito para mi web.</p>
-            <p class="mono wa__note">MENSAJE YA ESCRITO · COMPLETÁS EL RUBRO Y ENVIÁS</p>
+            <p class="bubble bubble--out">Hola Martin, quiero contarte sobre mi negocio y ver qué tipo de web me
+              podría servir.</p>
+            <p class="mono wa__note">MENSAJE YA ESCRITO · TOCÁS Y ENVIÁS</p>
             <div class="wa__typing" aria-hidden="true"><span></span><span></span><span></span></div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  </main>
 
   <!-- ═══ FOOTER ═══ -->
   <footer class="footer">
@@ -634,9 +645,8 @@
         </nav>
         <nav>
           <p class="mono footer__label">CONTACTO</p>
-          <a href="https://wa.me/543524401654?text=Hola%20Martin%2C%20tengo%20un%20%5Btipo%20de%20negocio%5D%20y%20quiero%20contarte%20qu%C3%A9%20necesito%20para%20mi%20web."
-            target="_blank" rel="noopener">WhatsApp</a>
-          <a href="https://www.instagram.com/martindelucca_/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://wa.me/543524401654?text=Hola%20Martin%2C%20quiero%20contarte%20sobre%20mi%20negocio%20y%20ver%20qu%C3%A9%20tipo%20de%20web%20me%20podr%C3%ADa%20servir.">WhatsApp</a>
+          <a href="https://www.instagram.com/martindelucca_/" target="_blank" rel="noopener">Instagram<span class="vh"> (abre en una pestaña nueva)</span></a>
         </nav>
       </div>
     </div>
@@ -646,8 +656,7 @@
   </footer>
 
   <a class="fab" data-fab
-    href="https://wa.me/543524401654?text=Hola%20Martin%2C%20tengo%20un%20%5Btipo%20de%20negocio%5D%20y%20quiero%20contarte%20qu%C3%A9%20necesito%20para%20mi%20web."
-    target="_blank" rel="noopener">
+    href="https://wa.me/543524401654?text=Hola%20Martin%2C%20quiero%20contarte%20sobre%20mi%20negocio%20y%20ver%20qu%C3%A9%20tipo%20de%20web%20me%20podr%C3%ADa%20servir.">
     <span class="dot dot--green" aria-hidden="true"></span>Escribime por WhatsApp
   </a>
 

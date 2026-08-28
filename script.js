@@ -108,7 +108,7 @@
     });
   }
 
-  /* ── Recorrido: escena sticky. La cantidad de pasos sale del DOM. ── */
+  /* ── Escena sticky de la sección 02. La cantidad de pasos sale del DOM. ── */
   function initJourney() {
     var sec = document.querySelector('[data-journey]');
     if (!sec) return;
@@ -121,6 +121,10 @@
     var apply = function (idx) {
       if (idx === current) return;
       current = idx;
+      // `is-scene` avisa al CSS que la escena está corriendo. Sin esta clase
+      // —mobile, reduced-motion, sin JS— los cuatro pasos se ven a contraste
+      // pleno en vez de quedar apagados esperando un scroll que no va a pasar.
+      sec.classList.add('is-scene');
       steps.forEach(function (s) {
         var i = +s.getAttribute('data-step');
         s.classList.toggle('is-active', i === idx);
@@ -133,6 +137,7 @@
     };
 
     var reset = function () {
+      sec.classList.remove('is-scene');
       steps.forEach(function (s) { s.classList.remove('is-active', 'is-past'); });
       blocks.forEach(function (b) { b.classList.remove('is-off'); });
       current = -1;
