@@ -868,7 +868,15 @@ em { font-style: normal; }
 }
 
 @media (max-width: 460px) {
-  .btn__label { display: none; }
+  /* El botón del header queda sólo con la flecha, pero el texto no se puede
+     sacar con display:none: la flecha es aria-hidden, así que el enlace se
+     quedaba sin ningún nombre accesible. Se oculta a la vista y se mantiene en
+     el árbol, con las mismas reglas que .vh. Un aria-label sería peor: pisaría
+     el texto visible que sí se ve arriba de 460px. */
+  .btn__label {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+    overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+  }
   .btn--sm { padding: 10px; }
 }
 

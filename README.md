@@ -5,6 +5,7 @@ Sitio estático, sin build. Abrís `index.html` en el navegador y funciona.
 ```
 index.html      markup, una sección por bloque, comentado
 404.html        página de error (GitHub Pages la sirve sola desde la raíz)
+favicon.ico     el navegador lo pide solo aunque estén declarados el SVG y el PNG
 styles.css      tokens en :root → base → componentes → secciones → responsive
 script.js       reveals, parallax del hero, escena sticky, conectores, FAB
 assets/         capturas de los casos + wordmark SVG
@@ -29,8 +30,31 @@ labels; **Literata** italic 300 entra sólo en dos énfasis y en la pullquote.
 
 El display va a `var(--w-display)` = **700**. Tracking `-.04em` como piso, nunca más cerrado.
 
+**Las fuentes se sirven desde el propio dominio**, no desde Google Fonts. Los dos `.woff2` están en
+`assets/fonts/` y son exactamente los archivos que servía gstatic, descargados tal cual. Google
+costaba una cadena bloqueante de tres saltos —`fonts.googleapis.com`, su CSS, y recién ahí
+`fonts.gstatic.com`— que sola bloqueaba el render 830ms.
+
+**Sólo el subset latin.** De los 89 caracteres distintos que usa la página ninguno cae fuera. Los
+únicos afuera son las flechas `→` y `↗`, que ya usaban fallback antes porque tampoco están en el
+subset latin de Google. Sumar latin-ext serían 32 KB por cero caracteres.
+
+Para regenerarlos, pedirle a Google el CSS con un User-Agent de Chrome (si no, devuelve `.ttf`) y
+quedarse con el `@font-face` cuyo `unicode-range` arranca en `U+0000-00FF`:
+
+```
+Archivo:wght@400..800                      -> archivo-latin-var.woff2        34 KB
+Literata:ital,opsz,wght@1,7..72,300        -> literata-italic-latin-var.woff2 50 KB
+```
+
+De Literata se pide **sólo el peso 300**, que es el único que la página usa, y **se conserva el eje
+opsz**: la instancia estática pesa 21 KB en vez de 50, pero medida ensancha el texto un 3% a 90px y
+eso recompone el H1. `font-optical-sizing: auto` trabaja ahí.
+
 **Los pesos son los cinco que Archivo carga de verdad**, y nada en el medio: `800` display · `700`
-subtítulos · `600` labels · `500` metadatos · `400` cuerpo. Archivo entra como instancias estáticas,
+subtítulos · `600` labels · `500` metadatos · `400` cuerpo. El archivo self-hosteado declara el rango
+`400 800` real, así que ahora un peso intermedio interpolaría en vez de saltar; aun así conviene
+quedarse en los cinco. Antes Archivo entraba como instancias estáticas,
 no como fuente variable: un `620` no existe y el navegador lo resuelve a `700`, un `550` a `600`.
 Escribir un peso fraccionario acá no afina nada, cambia el peso por otro. `--w-display` guarda el
 tope para no repetirlo.
@@ -125,6 +149,22 @@ verdad —los dos casos e Instagram— sí abren en pestaña nueva y lo avisan c
 para lectores de pantalla.
 
 Si vas a cambiarlo seguido, conviene sacarlo a una constante y armar los hrefs en JS.
+
+## Rendimiento: dos cosas que se midieron y se decidió no hacer
+
+**Minificar CSS y JS.** Ahorra 6.1 KB gzip en `styles.css` (14.3 → 8.2), o sea unos 30ms sobre el
+FCP en la red lenta que simula Lighthouse. Ojo si lo medís en local: `python -m http.server` no
+comprime, así que Lighthouse ve 53 KB en vez de 14 y estima un ahorro de 300ms que no es real.
+No se hizo porque el repo no tiene build ni CI: separar fuente y salida significa que cada edición
+depende de acordarse de correr un script, y olvidarse publica CSS viejo en silencio, que es peor
+falla que 30ms. Con Rendimiento en 98 no lo vale. Si algún día entra un build por otro motivo,
+engancharlo ahí.
+
+**Cache headers largos.** GitHub Pages sirve todo con `max-age=600` y **no permite configurar
+cabeceras**: no hay `_headers`, no hay `vercel.json`, no hay nada. Lighthouse lo va a seguir
+marcando. La única salida real es poner un CDN adelante (Cloudflare), que es infraestructura, no
+código. Mientras tanto no tiene sentido versionar los assets con hash: el hash sirve para poder
+cachear fuerte, y acá no se puede.
 
 ## Antes de publicar
 
