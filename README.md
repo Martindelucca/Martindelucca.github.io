@@ -58,10 +58,15 @@ abren 15.9%. Segunda regla, del mismo problema: `--ink` tiene croma 0.012, así 
 tonos apagados van a 0.024–0.028 para que lean crema. Si tenés que subir el piso de contraste otra
 vez, subilo abriendo hacia arriba, no comprimiendo hacia abajo.
 
-**Numeración.** Los `NN —` de sección se fueron: sólo quedan números donde describen una secuencia
-real (las tres situaciones de 01, los cuatro momentos de 02, el `01 / 02` de los casos). Cada
-capítulo entra distinto —label chico, H2 pelado o número— para que la página no se lea como una
-plantilla `NN — NOMBRE`.
+**Las secciones entran por el título, sin label arriba.** No hay eyebrows: las nueve abren con su
+H2 y nada más. Un label chico sobre cada título es el andamio de landing más repetido que hay, y en
+la práctica ninguno de los seis que había decía algo que su H2 no dijera ya. Si alguna sección
+necesita contexto que el título no da, la respuesta es reescribir el título, no ponerle una etiqueta
+encima.
+
+**Numeración.** Los `NN —` de sección se fueron completos. Sólo quedan números donde describen una
+secuencia real: las tres situaciones de 01, los cuatro pasos de 02 con su contador `01 / 04`, y el
+`01 / 02` de los casos.
 
 ## Pendiente marcado con `TODO` en el HTML
 

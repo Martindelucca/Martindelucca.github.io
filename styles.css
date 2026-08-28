@@ -170,13 +170,6 @@ em { font-style: normal; }
 .label--faint { color: var(--faint); }
 .label--dim { color: var(--on-ink-faint); }
 
-.eyebrow {
-  font-size: 13px; font-weight: 600; letter-spacing: .01em; line-height: 1.2;
-  color: var(--on-ink-faint); margin-bottom: clamp(22px, 3vw, 32px);
-  font-variant-numeric: tabular-nums;
-}
-.section:not(.section--ink) .eyebrow, .journey .eyebrow { color: var(--faint); }
-.eyebrow--spaced { margin-bottom: clamp(32px, 4vw, 48px); }
 
 .dot { width: 6px; height: 6px; border-radius: 999px; display: inline-block; flex-shrink: 0; }
 .dot--pulse { background: var(--accent); animation: pulse 2.6s ease-in-out infinite; }
