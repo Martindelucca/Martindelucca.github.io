@@ -23,7 +23,19 @@ assets/         capturas de los casos + wordmark SVG
 | `--on-ink` / `--on-ink-muted` / `--on-ink-dim` / `--on-ink-faint` | `#F2EFE8` / `#A39D91` / `#9A958B` / `#948F85` | rampa de texto sobre oscuro |
 | `--deco` | `#B5AFA3` | **nunca texto**: cuadrados, puntos, reglas |
 
-Tipografía: **Archivo** 800 para titulares (tracking `-.04em` a `-.05em`), **Newsreader** italic 300 como acento editorial (`.em`), **IBM Plex Mono** 500 para labels y metadata.
+Tipografía: **dos familias, ninguna mono.** **Instrument Sans** hace interfaz, cuerpo, titulares y
+labels; **Literata** italic 300 entra sólo en dos énfasis y en la pullquote.
+
+El display va a `var(--w-display)` = **700**, que es el tope real de Instrument Sans: escribir 800
+sería un número que el navegador clampea igual. Tracking `-.04em` como piso, nunca más cerrado.
+
+Lo que antes pedía una mono es ahora `.label` — la misma sans a 620–640, cuerpo chico y algo de
+tracking. **La versalita se quedó sólo donde funciona como etiqueta** (chrome de card, campos de
+ficha, chips, nav del footer) y se cayó en todo lo que en realidad era una frase: una oración entera
+en mayúsculas era el tic más visible del sistema anterior. Los cuerpos de label subieron de 9.5–10px
+a 10.5–11.5px, que es donde se leen en un celular en la calle. En el HTML los labels van en caja
+natural y la versalita la pone el CSS, así el texto que se copia y el que lee un lector de pantalla
+es el real.
 
 Ritmo de secciones: claro → oscuro → claro → oscuro. Máximo dos fondos en toda la página.
 
