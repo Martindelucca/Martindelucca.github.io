@@ -15,9 +15,11 @@
   --mist: #EFEBE2;
 
   /* Texto sobre claro — rampa verificada contra la superficie clara más
-     oscura del sistema (--mist #EFEBE2). Los cuatro tonos pasan AA como texto
-     normal; --faint es el piso. Debajo de --faint no hay texto, hay decoración. */
+     oscura del sistema (--mist #EFEBE2). Los ratios son el peor caso. Todos
+     pasan AA como texto normal; --faint es el piso. Debajo de --faint no hay
+     texto, hay decoración. */
   --text: #171613;       /* 15.2:1 · primario */
+  --text-2: #33302A;     /* 11.1:1 · cuerpo dentro de piezas contenidas */
   --muted: #56524A;      /*  6.5:1 · cuerpo secundario */
   --muted-2: #635E56;    /*  5.4:1 · terciario */
   --faint: #6E685E;      /*  4.6:1 · labels y metadatos (piso AA) */
@@ -25,10 +27,11 @@
   --hair: rgba(23, 21, 18, .1);
   --hair-2: rgba(23, 21, 18, .09);
 
-  /* Texto sobre oscuro — verificada contra la superficie oscura más clara del
-     sistema (la card de precio, #2C2820), así un solo juego de tokens sirve
-     para --ink y para todas las cards elevadas.
-     Los ratios entre paréntesis son el peor caso, no el mejor.
+  /* Texto sobre oscuro — verificada contra --ink-raised (la superficie oscura
+     más clara del sistema), así un solo juego de tokens sirve para --ink y para
+     todas las cards elevadas.
+     Los ratios entre paréntesis son el peor caso: medidos contra --ink-raised,
+     que es la superficie oscura más clara.
 
      Dos cosas que esta rampa arregla y conviene no volver a romper:
      · RECORRIDO. Cumplir AA subiendo el piso apretó los tres tonos apagados
@@ -42,6 +45,13 @@
   --on-ink-muted: #B1A896; /*  6.2:1 · cuerpo */
   --on-ink-dim: #A29987;   /*  5.2:1 · terciario */
   --on-ink-faint: #978F7E; /*  4.6:1 · labels y metadatos (piso AA) */
+  /* Superficies oscuras elevadas. --ink-raised es la más clara del sistema y
+     por eso es contra la que se verifica la rampa de arriba: si la aclarás, la
+     rampa entera baja de AA en silencio. El piso (--on-ink-faint) despeja 4.57:1
+     acá, o sea 0.07 de margen. No la toques sin recalcular. */
+  --ink-raised: #2C2820;
+  --ink-sunken: #1A1813;
+
   --hair-ink: rgba(255, 255, 255, .13);
 
   /* Acento */
@@ -173,7 +183,7 @@ em { font-style: normal; }
 
 .dot { width: 6px; height: 6px; border-radius: 999px; display: inline-block; flex-shrink: 0; }
 .dot--pulse { background: var(--accent); animation: pulse 2.6s ease-in-out infinite; }
-.dot--grey { width: 5px; height: 5px; background: #C9C4B8; }
+.dot--grey { width: 5px; height: 5px; background: var(--deco); }
 .dot--green { background: var(--green); box-shadow: 0 0 0 3px rgba(63, 191, 106, .16); }
 .sq { width: 8px; height: 8px; border-radius: 2px; background: var(--deco); display: inline-block; flex-shrink: 0; }
 .sq--accent { width: 7px; height: 7px; border-radius: 0; background: var(--accent); margin-right: 10px; }
@@ -322,8 +332,13 @@ em { font-style: normal; }
 .card__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; }
 .card--hero-main .card__head { margin-bottom: 15px; }
 
+/* Las burbujas citan la interfaz de WhatsApp: los verdes de acá abajo
+   (--wa-ink, --wa-lt, #EAF3EC, #1E3326, #9BD8B0, y el #F0ECE3 de .wa__head)
+   son de ese producto, no de esta marca. Quedan como literales a propósito:
+   subirlos a tokens diría que son parte del sistema e invitaría a reusarlos en
+   un botón cualquiera. Verificados igual — 8.6:1, 11.5:1 y 6.0:1. */
 .bubble { display: inline-block; max-width: 100%; padding: 10px 13px; font-size: 14px; line-height: 1.42; }
-.bubble--in { border-radius: 13px 13px 13px 4px; background: var(--mist); color: #33302A; }
+.bubble--in { border-radius: 13px 13px 13px 4px; background: var(--mist); color: var(--text-2); }
 .bubble--wa { border-radius: 13px 13px 4px 13px; background: var(--wa-ink); color: #EAF3EC; padding: 11px 13px; line-height: 1.45; }
 .bubble--wa-lt { border-radius: 13px 13px 4px 13px; background: var(--wa-ink); color: #EAF3EC; padding: 13px 15px; font-size: 14px; line-height: 1.45; box-shadow: 0 18px 34px -20px rgba(23,21,18,.6); }
 .bubble--out { align-self: flex-end; max-width: 92%; border-radius: 14px 14px 4px 14px; background: var(--wa-lt); color: #1E3326; padding: 12px 14px; font-size: 14.5px; line-height: 1.45; box-shadow: 0 8px 18px -12px rgba(23,21,18,.5); }
@@ -389,7 +404,7 @@ em { font-style: normal; }
 
 .handoff__mine {
   padding: clamp(26px, 3vw, 40px);
-  border-radius: 20px; background: linear-gradient(180deg, var(--ink-3), #191712);
+  border-radius: 20px; background: linear-gradient(180deg, var(--ink-3), var(--ink-sunken));
   border: 1px solid rgba(255, 255, 255, .1);
   box-shadow: 0 36px 80px -40px rgba(0, 0, 0, .95), inset 0 1px 0 rgba(255, 255, 255, .07);
 }
@@ -499,7 +514,7 @@ em { font-style: normal; }
 .core {
   width: 100%; padding: clamp(26px, 3vw, 38px) clamp(22px, 2.4vw, 30px);
   border-radius: 20px; text-align: center; position: relative; z-index: 2;
-  background: linear-gradient(180deg, #2A2620, #1A1813);
+  background: linear-gradient(180deg, var(--ink-raised), var(--ink-sunken));
   border: 1px solid rgba(255, 255, 255, .14);
   box-shadow: 0 40px 90px -40px rgba(0, 0, 0, .95), inset 0 1px 0 rgba(255, 255, 255, .09);
 }
@@ -561,7 +576,7 @@ em { font-style: normal; }
 .facts > div { display: flex; flex-wrap: wrap; gap: 6px 20px; padding: 15px 0; border-top: 1px solid var(--hair); }
 .facts > div.is-last { border-bottom: 1px solid var(--hair); }
 .facts dt { font-size: 10.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; line-height: 1.7; color: var(--faint); width: 92px; flex-shrink: 0; }
-.facts dd { flex: 1 1 240px; font-size: 15.5px; line-height: 1.5; color: #33302A; }
+.facts dd { flex: 1 1 240px; font-size: 15.5px; line-height: 1.5; color: var(--text-2); }
 .case__link { display: inline-flex; align-items: center; gap: 10px; margin-top: 26px; font-size: 15.5px; font-weight: 600; letter-spacing: -.02em; }
 .case__shot { display: flex; justify-content: center; }
 .shot { position: relative; width: min(340px, 100%); transition: transform .5s var(--ease); }
@@ -602,7 +617,7 @@ em { font-style: normal; }
 .precio__glow { position: absolute; inset: 0; background: radial-gradient(80% 60% at 70% 20%, rgba(185, 47, 39, .14), transparent 60%); pointer-events: none; }
 .precio .wrap { position: relative; }
 .precio__grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: clamp(20px, 3vw, 40px); align-items: stretch; }
-.offer { padding: clamp(28px, 3.4vw, 44px); border-radius: 22px; background: linear-gradient(165deg, #2C2820, #1A1813 55%); border: 1px solid rgba(255, 255, 255, .13); box-shadow: 0 50px 100px -50px rgba(0, 0, 0, .95), inset 0 1px 0 rgba(255, 255, 255, .1); }
+.offer { padding: clamp(28px, 3.4vw, 44px); border-radius: 22px; background: linear-gradient(165deg, var(--ink-raised), var(--ink-sunken) 55%); border: 1px solid rgba(255, 255, 255, .13); box-shadow: 0 50px 100px -50px rgba(0, 0, 0, .95), inset 0 1px 0 rgba(255, 255, 255, .1); }
 .offer > .label--tag { display: block; font-size: 12px; font-weight: 600; letter-spacing: .02em; text-transform: none; }
 .offer__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; margin-top: 22px; }
 .offer__price .label { font-size: 13px; letter-spacing: .08em; color: var(--on-ink-dim); }
@@ -624,6 +639,7 @@ em { font-style: normal; }
 .cta .btn { margin-top: clamp(30px, 3.6vw, 42px); }
 .cta__preview { display: flex; justify-content: center; }
 .wa { width: 100%; max-width: 380px; border-radius: 20px; overflow: hidden; background: linear-gradient(180deg, var(--paper), var(--paper-2)); border: 1px solid rgba(23, 21, 18, .1); box-shadow: 0 1px 1px rgba(23,21,18,.04), 0 30px 60px -30px rgba(23,21,18,.42), 0 80px 120px -70px rgba(23,21,18,.55); transition: transform .45s var(--ease), box-shadow .45s ease; }
+/* Ver la nota sobre la familia WhatsApp en .bubble. */
 .wa__head { display: flex; align-items: center; gap: 11px; padding: 14px 17px; background: #F0ECE3; border-bottom: 1px solid var(--hair-2); }
 .wa__avatar { width: 32px; height: 32px; border-radius: 999px; background: var(--wa-ink); display: grid; place-items: center; color: #EAF3EC; font-size: 13px; font-weight: 700; }
 .wa__name { font-size: 14.5px; font-weight: 600; letter-spacing: -.02em; }

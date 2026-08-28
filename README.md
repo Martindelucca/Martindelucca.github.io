@@ -15,11 +15,12 @@ assets/         capturas de los casos + wordmark SVG
 | Token | Valor | Uso |
 |---|---|---|
 | `--ink` | `#16150F` | fondo de secciones oscuras |
+| `--ink-raised` / `--ink-sunken` | `#2C2820` / `#1A1813` | cards elevadas sobre oscuro |
 | `--cream` | `#F4F1EA` | fondo de secciones claras |
 | `--paper` | `#FFFDF9` | cards sobre claro |
 | `--accent` | `#B92F27` | acento (del wordmark) |
 | `--accent-lt` | `#E66B61` | acento sobre fondo oscuro |
-| `--text` / `--muted` / `--muted-2` / `--faint` | `#171613` / `#56524A` / `#635E56` / `#6E685E` | rampa de texto sobre claro |
+| `--text` / `--text-2` / `--muted` / `--muted-2` / `--faint` | `#171613` / `#33302A` / `#56524A` / `#635E56` / `#6E685E` | rampa de texto sobre claro |
 | `--on-ink` / `--on-ink-2` / `--on-ink-muted` / `--on-ink-dim` / `--on-ink-faint` | `#F2EFE8` / `#C8C0B0` / `#B1A896` / `#A29987` / `#978F7E` | rampa de texto sobre oscuro |
 | `--deco` | `#B5AFA3` | **nunca texto**: cuadrados, puntos, reglas |
 
@@ -49,6 +50,17 @@ superficie clara más oscura del sistema (`--mist #EFEBE2`) y la oscura contra l
 de precio, `#2C2820`), así un solo juego de tokens sirve en todas las superficies. Todos los
 escalones pasan 4.5:1 como texto normal; `--faint` y `--on-ink-faint` son el piso. Debajo de ahí no
 hay texto: hay `--deco`. Si agregás un color de texto nuevo, verificalo.
+
+**`--ink-raised` es el que no hay que tocar.** Es la superficie oscura más clara del sistema y por
+eso es contra la que se mide toda la rampa oscura: el piso (`--on-ink-faint`) despeja 4.57:1 ahí, o
+sea 0.07 de margen sobre el mínimo. Si aclarás esa card, la rampa entera cae por debajo de AA sin
+que nada avise. Antes ese valor vivía hardcodeado adentro de una regla `.offer` mientras el
+comentario de los tokens lo citaba de memoria: una garantía sin contrato.
+
+**Los verdes de las burbujas no son tokens y no deberían serlo.** `#EAF3EC`, `#1E3326`, `#9BD8B0` y
+el `#F0ECE3` de `.wa__head` son una cita de la interfaz de WhatsApp — de ese producto, no de esta
+marca. Quedan como literales con un comentario al lado justamente para que nadie los promueva a
+token y los reuse en un botón. Están verificados igual (8.6:1, 11.5:1, 6.0:1).
 
 **Cumplir AA no alcanza: la rampa también tiene que abrir.** La versión anterior de la rampa oscura
 pasaba AA con margen y aun así las secciones oscuras se veían grises, porque sus tres tonos apagados
