@@ -339,10 +339,6 @@ em { font-style: normal; }
 }
 .meta-row--single { margin-top: 20px; padding-top: 0; border: 0; color: var(--faint); }
 
-/* Bajo los 940px desaparece el nav y el precio queda a siete secciones de
-   scroll. Dos anclas debajo del CTA lo resuelven sin menú nuevo ni hamburguesa,
-   y ocupan el hueco que dejó la meta-row (oculta en mobile), así no suman ruido. */
-.hero__jump { display: none; }
 .coords {
   position: absolute; left: var(--pad-x); bottom: 26px;
   font-size: 11px; font-weight: 500; letter-spacing: .02em;
@@ -762,26 +758,6 @@ em { font-style: normal; }
   .system__links { display: none; }
 
   /* ── Iteración mobile: densidad y carga cognitiva ─────────────────── */
-
-  /* Hero · fuera la meta-row en mobile: debajo del CTA hacía ruido y el
-     mismo contenido vuelve en el cierre. En desktop se conserva. */
-  .hero .meta-row { display: none; }
-
-  /* En su lugar, los dos accesos que el nav ya no da. */
-  .hero__jump {
-    display: flex; flex-wrap: wrap; gap: 10px;
-    margin-top: clamp(26px, 4vw, 34px); padding-top: 22px;
-    border-top: 1px solid var(--hair);
-  }
-  .hero__jump a {
-    display: inline-flex; align-items: center; gap: 8px;
-    min-height: 44px; padding: 9px 16px; border-radius: 999px;
-    border: 1px solid rgba(23, 21, 18, .16); background: rgba(255, 253, 249, .6);
-    font-size: 13.5px; font-weight: 600; letter-spacing: -.015em; color: var(--muted);
-    transition: color .25s ease, border-color .25s ease;
-  }
-  .hero__jump a:hover { color: var(--text); border-color: rgba(23, 21, 18, .32); }
-  .hero__jump b { font-weight: 600; color: var(--text); }
 
   /* 01 · las tres situaciones no se apilan como cards: quedan editoriales */
   .start { max-width: none; }
